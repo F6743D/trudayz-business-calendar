@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TruDayz Landing Page</title>
+    <style>
+        :root {
+            --bg-matte-onyx: #121212;
+            --card-slate: #1E1E1E;
+            --text-cream: #F5F5DC;
+            --accent-sage: #8A9A86;
+            --border-dim: #2A2A2A;
+        }
+
+        body {
+            background-color: var(--bg-matte-onyx);
+            color: var(--text-cream);
+            font-family: ui-sans-serif, system-ui, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            padding: 2rem 1rem;
+            box-sizing: border-box;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            letter-spacing: 0.15em;
+            color: var(--accent-sage);
+            margin-bottom: 0.5rem;
+            font-size: 2rem;
+        }
+
+        .calendar-widget {
+            background: var(--card-slate); 
+            border: 1px solid var(--border-dim); 
+            border-radius: 8px; 
+            padding: 2rem; 
+            width: 280px; 
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .month {
+            letter-spacing: 0.1em;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            color: var(--accent-sage);
+        }
+        
+        .flip-pad {
+            background: #151515; 
+            border: 1px solid var(--border-dim);
+            padding: 1.5rem;
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .input-container {
+            margin-top: 1.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        input[type="number"] {
+            background: #1A1A1A; 
+            border: 1px solid var(--accent-sage); 
+            color: var(--text-cream); 
+            padding: 0.5rem; 
+            text-align: center; 
+            font-size: 1.1rem;
+            width: 80px;
+            margin-top: 0.5rem;
+            border-radius: 4px;
+        }
+
+        .problem-split {
+            max-width: 450px;
+            width: 100%;
+            border-top: 1px solid var(--border-dim);
+            padding-top: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .split-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .split-left { opacity: 0.6; }
+        .split-right { color: var(--accent-sage); font-weight: bold; }
+
+        .cta-section {
+            background: var(--card-slate);
+            border: 1px solid var(--border-dim);
+            border-radius: 8px;
+            padding: 1.5rem;
+            max-width: 450px;
+            width: 100%;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        input[type="email"] {
+            background: #151515;
+            border: 1px solid var(--border-dim);
+            color: var(--text-cream);
+            padding: 0.75rem;
+            width: 80%;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        button {
+            background: var(--accent-sage);
+            color: var(--bg-matte-onyx);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 85%;
+            letter-spacing: 0.05em;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>TRUDAYZ</h1>
+        <p style="max-width: 400px; margin: 0 auto; opacity: 0.8; font-size: 0.95rem; line-height: 1.4;">
+            No guessing games, no stress. They’re on their timeline, you’re on yours. Let us map the true dates so you can just stay in your zone.
+        </p>
+    </header>
+
+    <div class="calendar-widget">
+        <div id="calendar-month" class="month">JUNE 2026</div>
+        <div id="calendar-day" class="flip-pad">WED 10</div>
+        <div class="badge" style="font-size: 0.8rem; opacity: 0.6;">[ TRUDAYZ CLEAR ]</div>
+    </div>
+
+    <div class="input-container">
+        <label style="display: block; font-size: 0.9rem; opacity: 0.8;">Quoted Window (Business Days):</label>
+        <input type="number" id="days-input" value="3" min="1" max="100">
+    </div>
+
+    <div class="problem-split">
+        <h3 style="font-size: 1rem; margin-bottom: 1.5rem; text-align: center; letter-spacing: 0.05em; color: var(--accent-sage);">THE REALITY MATRIX</h3>
+        <div class="split-row">
+            <span class="split-left">When they quote:</span>
+            <span class="split-right" id="matrix-quote">3 Business Days</span>
+        </div>
+        <div class="split-row">
+            <span class="split-left">Calendar footprint:</span>
+            <span class="split-right" id="matrix-footprint">5 Total Days</span>
+        </div>
+        <div class="split-row">
+            <span class="split-left">System bypass pauses:</span>
+            <span class="split-right" id="matrix-pauses">1 Weekend</span>
+        </div>
+    </div>
+
+    <div class="cta-section">
+        <h4 style="margin: 0 0 0.5rem 0; font-size: 1.1rem;">Get the TruDayz Pocket App</h4>
+        <p style="font-size: 0.85rem; opacity: 0.7; margin-bottom: 1.2rem;">Join the launch team for early access to the dynamic widget setup.</p>
+        <input type="email" placeholder="Enter your email address">
+        <button>Join the TruDayz Launch Team</button>
+    </div>
+
+    <script>
+        const input = document.getElementById('days-input');
+        const dayDisplay = document.getElementById('calendar-day');
+        const monthDisplay = document.getElementById('calendar-month');
+        
+        const matrixQuote = document.getElementById('matrix-quote');
+        const matrixFootprint = document.getElementById('matrix-footprint');
+        const matrixPauses = document.getElementById('matrix-pauses');
+
+        function calculateTrueDate(businessDays) {
+            let start = new Date(2026, 5, 5); // Friday, June 5, 2026
+            let current = new Date(start);
+            let remaining = parseInt(businessDays) || 0;
+            
+            const holiday = new Date(2026, 5, 19).toDateString(); // Juneteenth
+            let weekendCount = 0;
+            let holidayCount = 0;
+
+            while (remaining > 0) {
+                current.setDate(current.getDate() + 1);
+                if (current.getDay() === 0 || current.getDay() === 6) {
+                    if (current.getDay() === 6) weekendCount++;
+                    continue;
+                }
+                if (current.toDateString() === holiday) {
+                    holidayCount++;
+                    continue;
+                }
+                remaining--;
+            }
+
+            const totalDays = Math.round((current - start) / (1000 * 60 * 60 * 24));
+            const daysOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+            const months = ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'];
+
+            // Format pauses text
+            let pausesText = [];
+            if (weekendCount > 0) pausesText.push(`${weekendCount} Weekend${weekendCount > 1 ? 's' : ''}`);
+            if (holidayCount > 0) pausesText.push(`${holidayCount} Bank Holiday`);
+            if (pausesText.length === 0) pausesText.push('None');
+
+            return {
+                dayStr: `${daysOfWeek[current.getDay()]} ${String(current.getDate()).padStart(2, '0')}`,
+                monthStr: `${months[current.getMonth()]} ${current.getFullYear()}`,
+                quote: `${businessDays} Business Days`,
+                footprint: `${totalDays} Total Days`,
+                pauses: pausesText.join(' + ')
+            };
+        }
+
+        input.addEventListener('input', () => {
+            const result = calculateTrueDate(input.value);
+            dayDisplay.textContent = result.dayStr;
+            monthDisplay.textContent = result.monthStr;
+            
+            matrixQuote.textContent = result.quote;
+            matrixFootprint.textContent = result.footprint;
+            matrixPauses.textContent = result.pauses;
+        });
+
+        // Initialize values
+        const init = calculateTrueDate(input.value);
+        dayDisplay.textContent = init.dayStr;
+        monthDisplay.textContent = init.monthStr;
+    </script>
+</body>
+</html>

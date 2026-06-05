@@ -1,0 +1,76 @@
+==================================================
+        TRUDAYZ LANDING PAGE BLUEPRINT
+==================================================
+
+1. THE HEADER SECTION
+--------------------------------------------------
+* Logo/Name: TRUDAYZ
+* Sub-headline: No guessing games, no stress. They’re on their timeline, you’re on yours. Let us map the true dates so you can just stay in your zone.
+
+2. THE HERO COMPONENT (THE MAIN HOOK)
+--------------------------------------------------
+* Headline: "They said 5 business days... but when is that truly?"
+* Tool Element: [ INTERACTIVE SIMPLIFIED INPUT FIELD ]
+  [ A clean text box where a user just types a number to instantly 
+    see the true clearing date on their screen. ]
+
+3. THE CORE PROBLEM SPLIT ("5 TO 10 BUSINESS DAYS TRULY MEANS")
+--------------------------------------------------
+When they say "5 to 10 business days," standard mental math says a week or a week and a half. 
+But the institutional clearing system moves on a different clock. 
+
+Here is the true translation:
+
+* 5 Business Days truly means: 
+  Today's East Coast cutoff is missed. The engine skips the weekend and counts Monday through Friday. 
+  -> True Clearing Date: 7 full calendar days out.
+
+* 10 Business Days truly means: 
+  The engine counts week one, hits a second weekend wall, and moves into week two. Week two hits 
+  the Juneteenth Federal Reserve holiday—the system freezes and erases that day.
+  -> True Clearing Date: 17 full calendar days out.
+
+Reality: A "5 to 10 day" quote actually means a variance of 1 week to nearly 2.5 weeks on your calendar.
+
+4. FEATURES EXPLAINED IN ABC-123 FASHION
+--------------------------------------------------
+* Pillar 1: The One-Number Input
+  No scrolling through calendar grids or picking dates. Just drop the number they gave you and get your answer. Simple.
+  
+* Pillar 2: The Cutoff Translator
+  If the banks are closed on the East Coast, your day is already done. The engine automatically adjusts for daily cutoffs so your timeline stays accurate.
+  
+* Pillar 3: Automated Pauses
+  Weekends and federal banking holidays sneak up and stall your files. We track the official Federal Reserve matrix so hidden closures never catch you off guard.
+
+5. THE CALL TO ACTION (THE LAUNCH LEAD CAPTURE)
+--------------------------------------------------
+* Headline: Get the TruDayz Pocket App.
+* Body: We are packaging our hard-coded terminal engine into a beautiful, one-click mobile app. Join the waitlist for early access and beta testing.
+* Input Box: [ Enter your email address ]
+* Button: Join the TruDayz Launch Team
+
+==================================================
+        BRANDING & TOOL FILL-IN MATRIX
+==================================================
+* Primary Brand Color: Matte Onyx Base with Matte Sage & Cream Accents
+* Landing Page Builder Tool: [____________________]
+* Email Capture Tool: [____________________]
+
+==================================================
+        DESK-TO-MOBILE VISUAL INTERFACE
+==================================================
+* Concept: Minimalist physical desktop flip-calendar meets mobile widget.
+
+               JUNE 2026
+         _____________________
+        |  _________________  |
+        | |                 | |
+        | |     MON  22     | |
+        | |                 | |
+        | |_________________| |
+        |_____________________|
+         [   TRUDAYZ CLEAR    ]
+
+ Quoted Window: [ 10 ] Business Days
+ Status       : Time-zone locked / Holiday verified
