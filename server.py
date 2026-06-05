@@ -34,11 +34,15 @@ class CaptureHandler(http.server.SimpleHTTPRequestHandler):
             super().do_POST()
 
 if __name__ == "__main__":
-    # Serve files from the project folder on port 8080
+    # Serve files from the project folder
     os.chdir(os.path.expanduser('~/business-day-calendar'))
-    server_address = ('', 8080)
+    
+    # Use the dynamic port assigned by the cloud host, defaulting to 8080 locally
+    port = int(os.environ.get("PORT", 8080))
+    server_address = ('', port)
+    
     httpd = http.server.HTTPServer(server_address, CaptureHandler)
-    print("TruDayz local capture engine live on http://localhost:8080")
+    print(f"TruDayz local capture engine live on port {port}")
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:
