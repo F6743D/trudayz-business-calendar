@@ -175,8 +175,8 @@
     <div class="cta-section">
         <h4 style="margin: 0 0 0.5rem 0; font-size: 1.1rem;">Get the TruDayz Pocket App</h4>
         <p style="font-size: 0.85rem; opacity: 0.7; margin-bottom: 1.2rem;">Join the launch team for early access to the dynamic widget setup.</p>
-        <input type="email" placeholder="Enter your email address">
-        <button>Join the TruDayz Launch Team</button>
+        <input type="email" id="email-input" placeholder="Enter your email address">
+        <button id="cta-button">Join the TruDayz Launch Team</button>
     </div>
 
     <script>
@@ -187,6 +187,9 @@
         const matrixQuote = document.getElementById('matrix-quote');
         const matrixFootprint = document.getElementById('matrix-footprint');
         const matrixPauses = document.getElementById('matrix-pauses');
+
+        const emailInput = document.getElementById('email-input');
+        const ctaButton = document.getElementById('cta-button');
 
         function calculateTrueDate(businessDays) {
             let start = new Date(2026, 5, 5); // Friday, June 5, 2026
@@ -214,7 +217,6 @@
             const daysOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
             const months = ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'];
 
-            // Format pauses text
             let pausesText = [];
             if (weekendCount > 0) pausesText.push(`${weekendCount} Weekend${weekendCount > 1 ? 's' : ''}`);
             if (holidayCount > 0) pausesText.push(`${holidayCount} Bank Holiday`);
@@ -243,6 +245,35 @@
         const init = calculateTrueDate(input.value);
         dayDisplay.textContent = init.dayStr;
         monthDisplay.textContent = init.monthStr;
+
+        // POST Submission Handler
+        ctaButton.addEventListener('click', async () => {
+            const email = emailInput.value.trim();
+            if (!email) {
+                alert('Please enter an email address.');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/capture', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: email })
+                });
+
+                if (response.ok) {
+                    ctaButton.textContent = "You're on the list";
+                    ctaButton.style.background = "#4A5D4E";
+                    ctaButton.style.color = "#F5F5DC";
+                    emailInput.value = "";
+                } else {
+                    alert('Submission failed. Check connection.');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Error connecting to backend server.');
+            }
+        });
     </script>
 </body>
 </html>
