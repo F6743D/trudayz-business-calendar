@@ -74,10 +74,7 @@
             margin-bottom: 10px;
             opacity: 0.9;
         }
-        .input-group {
-            margin-top: 32px;
-        }
-        input[type="email"] {
+        input[type="email"], input[type="number"] {
             width: 100%;
             padding: 14px;
             background-color: var(--input-bg);
@@ -89,7 +86,7 @@
             margin-bottom: 12px;
             text-align: center;
         }
-        input[type="email"]:focus {
+        input:focus {
             outline: none;
             border-color: var(--accent-green);
         }
@@ -131,7 +128,7 @@
     <div class="matrix-title">The Reality Matrix</div>
     <div class="matrix-row">
         <span>When they quote:</span>
-        <strong>68 Business Days</strong>
+        <strong id="displayDays">68 Business Days</strong>
     </div>
     <div class="matrix-row">
         <span>Calendar footprint:</span>
@@ -147,6 +144,7 @@
         <p style="margin: 0 0 16px 0; font-size: 13px; opacity: 0.7;">Join the launch team for early access to the dynamic widget setup.</p>
         
         <form id="captureForm">
+            <input type="number" id="daysInput" name="days" placeholder="Quoted Window (Business Days)" min="1" max="365" required>
             <input type="email" id="emailInput" name="email" placeholder="Enter your email address" required>
             <button type="submit" id="submitBtn">You're on the list</button>
         </form>
@@ -155,47 +153,53 @@
 </div>
 
 <script>
+    // Live update the layout when changing input days
+    document.getElementById('daysInput').addEventListener('input', function(e) {
+        const value = e.target.value.trim();
+        document.getElementById('displayDays').textContent = value ? `${value} Business Days` : '68 Business Days';
+    });
+
     document.getElementById('captureForm').addEventListener('submit', async function(e) {
         e.preventDefault();
         
+        const daysInput = document.getElementById('daysInput');
         const emailInput = document.getElementById('emailInput');
         const submitBtn = document.getElementById('submitBtn');
         const msgDiv = document.getElementById('msg');
+        
+        const days = daysInput.value.trim();
         const email = emailInput.value.trim();
 
-        if (!email) return;
+        if (!email || !days) return;
 
-        // Visual feedback during execution
         submitBtn.disabled = true;
         msgDiv.style.color = 'var(--text-main)';
         msgDiv.textContent = 'Verifying alignment...';
 
         try {
-            // Send the request using URL encoded format to match server expectations
             const response = await fetch('/api/capture', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                body: new URLSearchParams({ 'email': email })
+                body: new URLSearchParams({ 'email': email, 'days': days })
             });
 
             const data = await response.json();
 
             if (response.ok && data.status === 'success') {
-                // Success State Transformation
                 msgDiv.style.color = '#8cb395';
                 msgDiv.textContent = 'Verified. Your access is mapped.';
-                emailInput.value = ''; // clear input
+                emailInput.value = '';
+                daysInput.value = '';
             } else {
-                // Target Handling for Duplicates or validation failures
                 msgDiv.style.color = 'var(--error-red)';
                 msgDiv.textContent = data.message || 'Registration barrier hit.';
             }
         } catch (error) {
             msgDiv.style.color = 'var(--error-red)';
             msgDiv.textContent = 'Network offline or engine unreachable.';
-        } finally {
+        } final {
             submitBtn.disabled = false;
         }
     });
