@@ -1,2 +1,6 @@
 leads.txt
 .env
+db_data/
+logfile
+__pycache__/
+*.tmp
