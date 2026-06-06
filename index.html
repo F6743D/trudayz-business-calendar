@@ -3,277 +3,203 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TruDayz Landing Page</title>
+    <title>TruDayz Calendar Engine</title>
     <style>
         :root {
-            --bg-matte-onyx: #121212;
-            --card-slate: #1E1E1E;
-            --text-cream: #F5F5DC;
-            --accent-sage: #8A9A86;
-            --border-dim: #2A2A2A;
+            --bg-color: #1a1513;
+            --card-bg: #26201e;
+            --text-main: #f4f0ec;
+            --accent-green: #596b5e;
+            --error-red: #a84343;
+            --input-bg: #14100f;
         }
-
         body {
-            background-color: var(--bg-matte-onyx);
-            color: var(--text-cream);
-            font-family: ui-sans-serif, system-ui, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            min-height: 100vh;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             margin: 0;
-            padding: 2rem 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
             box-sizing: border-box;
         }
-
-        header {
+        .header-text {
             text-align: center;
-            margin-bottom: 2rem;
+            font-size: 14px;
+            opacity: 0.8;
+            margin-bottom: 24px;
         }
-
-        h1 {
-            letter-spacing: 0.15em;
-            color: var(--accent-sage);
-            margin-bottom: 0.5rem;
-            font-size: 2rem;
-        }
-
-        .calendar-widget {
-            background: var(--card-slate); 
-            border: 1px solid var(--border-dim); 
-            border-radius: 8px; 
-            padding: 2rem; 
-            width: 280px; 
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 24px;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            margin-bottom: 24px;
         }
-
-        .month {
-            letter-spacing: 0.1em;
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-            color: var(--accent-sage);
+        .date-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.6;
+            margin-bottom: 12px;
         }
-        
-        .flip-pad {
-            background: #151515; 
-            border: 1px solid var(--border-dim);
-            padding: 1.5rem;
-            font-size: 1.8rem;
+        .date-display {
+            font-size: 32px;
             font-weight: bold;
-            margin-bottom: 1rem;
+            margin-bottom: 12px;
         }
-
-        .input-container {
-            margin-top: 1.5rem;
+        .status-badge {
+            font-size: 11px;
+            letter-spacing: 1px;
+            opacity: 0.7;
+        }
+        .matrix-title {
             text-align: center;
-            margin-bottom: 3rem;
+            font-size: 14px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
         }
-
-        input[type="number"] {
-            background: #1A1A1A; 
-            border: 1px solid var(--accent-sage); 
-            color: var(--text-cream); 
-            padding: 0.5rem; 
-            text-align: center; 
-            font-size: 1.1rem;
-            width: 80px;
-            margin-top: 0.5rem;
-            border-radius: 4px;
-        }
-
-        .problem-split {
-            max-width: 450px;
-            width: 100%;
-            border-top: 1px solid var(--border-dim);
-            padding-top: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .split-row {
+        .matrix-row {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 1rem;
-            font-size: 0.95rem;
+            font-size: 14px;
+            margin-bottom: 10px;
+            opacity: 0.9;
         }
-
-        .split-left { opacity: 0.6; }
-        .split-right { color: var(--accent-sage); font-weight: bold; }
-
-        .cta-section {
-            background: var(--card-slate);
-            border: 1px solid var(--border-dim);
-            border-radius: 8px;
-            padding: 1.5rem;
-            max-width: 450px;
-            width: 100%;
-            text-align: center;
-            box-sizing: border-box;
+        .input-group {
+            margin-top: 32px;
         }
-
         input[type="email"] {
-            background: #151515;
-            border: 1px solid var(--border-dim);
-            color: var(--text-cream);
-            padding: 0.75rem;
-            width: 80%;
-            margin-bottom: 1rem;
-            border-radius: 4px;
+            width: 100%;
+            padding: 14px;
+            background-color: var(--input-bg);
+            border: 1px solid #3d3532;
+            border-radius: 6px;
+            color: var(--text-main);
+            box-sizing: border-box;
+            font-size: 14px;
+            margin-bottom: 12px;
             text-align: center;
         }
-
+        input[type="email"]:focus {
+            outline: none;
+            border-color: var(--accent-green);
+        }
         button {
-            background: var(--accent-sage);
-            color: var(--bg-matte-onyx);
+            width: 100%;
+            padding: 14px;
+            background-color: var(--accent-green);
+            color: var(--text-main);
             border: none;
-            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-size: 14px;
             font-weight: bold;
-            border-radius: 4px;
             cursor: pointer;
-            width: 85%;
-            letter-spacing: 0.05em;
+            transition: opacity 0.2s;
+        }
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        #msg {
+            margin-top: 12px;
+            font-size: 13px;
+            font-weight: 500;
+            min-height: 18px;
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>TRUDAYZ</h1>
-        <p style="max-width: 400px; margin: 0 auto; opacity: 0.8; font-size: 0.95rem; line-height: 1.4;">
-            No guessing games, no stress. They’re on their timeline, you’re on yours. Let us map the true dates so you can just stay in your zone.
-        </p>
-    </header>
-
-    <div class="calendar-widget">
-        <div id="calendar-month" class="month">JUNE 2026</div>
-        <div id="calendar-day" class="flip-pad">WED 10</div>
-        <div class="badge" style="font-size: 0.8rem; opacity: 0.6;">[ TRUDAYZ CLEAR ]</div>
+<div class="container">
+    <div class="header-text">Let us map the true dates so you can just stay in your zone.</div>
+    
+    <div class="card">
+        <div class="date-title">September 2026</div>
+        <div class="date-display">THU 10</div>
+        <div class="status-badge">[ TRUDAYZ CLEAR ]</div>
     </div>
 
-    <div class="input-container">
-        <label style="display: block; font-size: 0.9rem; opacity: 0.8;">Quoted Window (Business Days):</label>
-        <input type="number" id="days-input" value="3" min="1" max="100">
+    <div class="matrix-title">The Reality Matrix</div>
+    <div class="matrix-row">
+        <span>When they quote:</span>
+        <strong>68 Business Days</strong>
+    </div>
+    <div class="matrix-row">
+        <span>Calendar footprint:</span>
+        <strong>97 Total Days</strong>
+    </div>
+    <div class="matrix-row">
+        <span>System bypass pauses:</span>
+        <strong>14 Weekends + 1 Bank Holiday</strong>
     </div>
 
-    <div class="problem-split">
-        <h3 style="font-size: 1rem; margin-bottom: 1.5rem; text-align: center; letter-spacing: 0.05em; color: var(--accent-sage);">THE REALITY MATRIX</h3>
-        <div class="split-row">
-            <span class="split-left">When they quote:</span>
-            <span class="split-right" id="matrix-quote">3 Business Days</span>
-        </div>
-        <div class="split-row">
-            <span class="split-left">Calendar footprint:</span>
-            <span class="split-right" id="matrix-footprint">5 Total Days</span>
-        </div>
-        <div class="split-row">
-            <span class="split-left">System bypass pauses:</span>
-            <span class="split-right" id="matrix-pauses">1 Weekend</span>
-        </div>
-    </div>
-
-    <div class="cta-section">
-        <h4 style="margin: 0 0 0.5rem 0; font-size: 1.1rem;">Get the TruDayz Pocket App</h4>
-        <p style="font-size: 0.85rem; opacity: 0.7; margin-bottom: 1.2rem;">Join the launch team for early access to the dynamic widget setup.</p>
-        <input type="email" id="email-input" placeholder="Enter your email address">
-        <button id="cta-button">Join the TruDayz Launch Team</button>
-    </div>
-
-    <script>
-        const input = document.getElementById('days-input');
-        const dayDisplay = document.getElementById('calendar-day');
-        const monthDisplay = document.getElementById('calendar-month');
+    <div class="card" style="margin-top: 32px;">
+        <h4 style="margin: 0 0 8px 0; font-size: 16px;">Get the TruDayz Pocket App</h4>
+        <p style="margin: 0 0 16px 0; font-size: 13px; opacity: 0.7;">Join the launch team for early access to the dynamic widget setup.</p>
         
-        const matrixQuote = document.getElementById('matrix-quote');
-        const matrixFootprint = document.getElementById('matrix-footprint');
-        const matrixPauses = document.getElementById('matrix-pauses');
+        <form id="captureForm">
+            <input type="email" id="emailInput" name="email" placeholder="Enter your email address" required>
+            <button type="submit" id="submitBtn">You're on the list</button>
+        </form>
+        <div id="msg"></div>
+    </div>
+</div>
 
-        const emailInput = document.getElementById('email-input');
-        const ctaButton = document.getElementById('cta-button');
+<script>
+    document.getElementById('captureForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const emailInput = document.getElementById('emailInput');
+        const submitBtn = document.getElementById('submitBtn');
+        const msgDiv = document.getElementById('msg');
+        const email = emailInput.value.trim();
 
-        function calculateTrueDate(businessDays) {
-            let start = new Date(2026, 5, 5); // Friday, June 5, 2026
-            let current = new Date(start);
-            let remaining = parseInt(businessDays) || 0;
-            
-            const holiday = new Date(2026, 5, 19).toDateString(); // Juneteenth
-            let weekendCount = 0;
-            let holidayCount = 0;
+        if (!email) return;
 
-            while (remaining > 0) {
-                current.setDate(current.getDate() + 1);
-                if (current.getDay() === 0 || current.getDay() === 6) {
-                    if (current.getDay() === 6) weekendCount++;
-                    continue;
-                }
-                if (current.toDateString() === holiday) {
-                    holidayCount++;
-                    continue;
-                }
-                remaining--;
+        // Visual feedback during execution
+        submitBtn.disabled = true;
+        msgDiv.style.color = 'var(--text-main)';
+        msgDiv.textContent = 'Verifying alignment...';
+
+        try {
+            // Send the request using URL encoded format to match server expectations
+            const response = await fetch('/api/capture', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({ 'email': email })
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data.status === 'success') {
+                // Success State Transformation
+                msgDiv.style.color = '#8cb395';
+                msgDiv.textContent = 'Verified. Your access is mapped.';
+                emailInput.value = ''; // clear input
+            } else {
+                // Target Handling for Duplicates or validation failures
+                msgDiv.style.color = 'var(--error-red)';
+                msgDiv.textContent = data.message || 'Registration barrier hit.';
             }
-
-            const totalDays = Math.round((current - start) / (1000 * 60 * 60 * 24));
-            const daysOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
-            const months = ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'];
-
-            let pausesText = [];
-            if (weekendCount > 0) pausesText.push(`${weekendCount} Weekend${weekendCount > 1 ? 's' : ''}`);
-            if (holidayCount > 0) pausesText.push(`${holidayCount} Bank Holiday`);
-            if (pausesText.length === 0) pausesText.push('None');
-
-            return {
-                dayStr: `${daysOfWeek[current.getDay()]} ${String(current.getDate()).padStart(2, '0')}`,
-                monthStr: `${months[current.getMonth()]} ${current.getFullYear()}`,
-                quote: `${businessDays} Business Days`,
-                footprint: `${totalDays} Total Days`,
-                pauses: pausesText.join(' + ')
-            };
+        } catch (error) {
+            msgDiv.style.color = 'var(--error-red)';
+            msgDiv.textContent = 'Network offline or engine unreachable.';
+        } finally {
+            submitBtn.disabled = false;
         }
+    });
+</script>
 
-        input.addEventListener('input', () => {
-            const result = calculateTrueDate(input.value);
-            dayDisplay.textContent = result.dayStr;
-            monthDisplay.textContent = result.monthStr;
-            
-            matrixQuote.textContent = result.quote;
-            matrixFootprint.textContent = result.footprint;
-            matrixPauses.textContent = result.pauses;
-        });
-
-        // Initialize values
-        const init = calculateTrueDate(input.value);
-        dayDisplay.textContent = init.dayStr;
-        monthDisplay.textContent = init.monthStr;
-
-        // POST Submission Handler
-        ctaButton.addEventListener('click', async () => {
-            const email = emailInput.value.trim();
-            if (!email) {
-                alert('Please enter an email address.');
-                return;
-            }
-
-            try {
-                const response = await fetch('/api/capture', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email: email })
-                });
-
-                if (response.ok) {
-                    ctaButton.textContent = "You're on the list";
-                    ctaButton.style.background = "#4A5D4E";
-                    ctaButton.style.color = "#F5F5DC";
-                    emailInput.value = "";
-                } else {
-                    alert('Submission failed. Check connection.');
-                }
-            } catch (err) {
-                console.error(err);
-                alert('Error connecting to backend server.');
-            }
-        });
-    </script>
 </body>
 </html>
