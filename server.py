@@ -212,3 +212,95 @@ def handler(environ, start_response):
         return [str(e).encode()]
 
 app = handler
+
+# ==============================================================================
+# UNIVERSAL PLATFORM ADAPTER (VERCEL SERVERLESS COMPATIBILITY LAYER)
+# ==============================================================================
+import os
+import io
+
+class MockSocket:
+    """Simulates a live network socket file pointer for serverless environments."""
+    def __init__(self, data):
+        self.data = data
+    def makefile(self, mode='r', bufsize=-1):
+        if 'b' in mode:
+            return io.BytesIO(self.data)
+        return io.StringIO(self.data.decode('utf-8', errors='ignore'))
+
+def handler(environ, start_response):
+    """WSGI entry point that translates serverless events into standard socket HTTP requests."""
+    try:
+        # Initialize your database logic automatically
+        if 'init_db' in globals():
+            globals()['init_db']()
+            
+        # Reconstruct a standard HTTP raw request line from the cloud environment
+        method = environ.get('REQUEST_METHOD', 'GET')
+        path = environ.get('PATH_INFO', '/')
+        query = environ.get('QUERY_STRING', '')
+        if query:
+            path = f"{path}?{query}"
+            
+        request_line = f"{method} {path} HTTP/1.1\r\n"
+        
+        # Rebuild standard HTTP headers
+        headers_payload = ""
+        for key, value in environ.items():
+            if key.startswith('HTTP_'):
+                header_name = key[5:].replace('_', '-').title()
+                headers_payload += f"{header_name}: {value}\r\n"
+            elif key in ('CONTENT_TYPE', 'CONTENT_LENGTH'):
+                header_name = key.replace('_', '-').title()
+                headers_payload += f"{header_name}: {value}\r\n"
+        
+        # Read incoming request body telemetry
+        try:
+            request_length = int(environ.get('CONTENT_LENGTH', 0))
+            request_body = environ['wsgi.input'].read(request_length)
+        except Exception:
+            request_body = b""
+            
+        # Combine everything into a single raw byte stream
+        full_raw_stream = request_line.encode('utf-8') + headers_payload.encode('utf-8') + b"\r\n" + request_body
+        
+        # Instantiate a fake socket stream containing our data
+        mock_socket = MockSocket(full_raw_stream)
+        
+        # Safely instantiate your exact custom CaptureHandler
+        if 'CaptureHandler' in globals():
+            handler_instance = globals()['CaptureHandler'](mock_socket, ('127.0.0.1', 8080), None)
+            
+            # Extract the generated response bytes from the handler's output stream
+            response_bytes = handler_instance.wfile.getvalue()
+            
+            # Split headers from body to comply with WSGI specifications
+            if b"\r\n\r\n" in response_bytes:
+                raw_headers, body = response_bytes.split(b"\r\n\r\n", 1)
+            else:
+                raw_headers, body = response_bytes, b""
+                
+            header_lines = raw_headers.decode('utf-8', errors='ignore').split('\r\n')
+            status_line = header_lines[0]
+            status_code = status_line.split(' ')[1] if len(status_line.split(' ')) > 1 else "200"
+            status_text = f"{status_code} OK" if status_code == "200" else f"{status_code} Error"
+            
+            # Parse response headers back into pairs
+            wsgi_headers = []
+            for line in header_lines[1:]:
+                if ":" in line:
+                    k, v = line.split(":", 1)
+                    wsgi_headers.append((k.strip(), v.strip()))
+                    
+            start_response(status_text, wsgi_headers)
+            return [body]
+            
+        start_response("500 Internal Server Error", [("Content-Type", "text/plain")])
+        return [b"CaptureHandler class not found in script namespace."]
+        
+    except Exception as e:
+        start_response("500 Internal Server Error", [("Content-Type", "text/plain")])
+        return [str(e).encode('utf-8')]
+
+# Export the application handle Vercel looks for
+app = handler
