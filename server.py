@@ -485,3 +485,94 @@ def handler(environ, start_response):
         return [str(e).encode('utf-8')]
 
 app = handler
+
+# ==============================================================================
+# UNIVERSAL PLATFORM ADAPTER (STANDARD PARSING LAYER)
+# ==============================================================================
+import os
+import io
+
+class UniversalMockSocket:
+    def __init__(self, data):
+        self.rfile = io.BytesIO(data)
+        self.wfile = io.BytesIO()
+    def makefile(self, mode='r', bufsize=-1):
+        if 'w' in mode:
+            return self.wfile
+        return self.rfile
+
+def handler(environ, start_response):
+    try:
+        if 'init_db' in globals():
+            globals()['init_db']()
+            
+        method = environ.get('REQUEST_METHOD', 'GET')
+        path = environ.get('PATH_INFO', '/')
+        query = environ.get('QUERY_STRING', '')
+        if query:
+            path = f"{path}?{query}"
+            
+        request_line = f"{method} {path} HTTP/1.1\r\n"
+        
+        headers_payload = ""
+        for key, value in environ.items():
+            if key.startswith('HTTP_'):
+                header_name = key[5:].replace('_', '-').title()
+                headers_payload += f"{header_name}: {value}\r\n"
+            elif key in ('CONTENT_TYPE', 'CONTENT_LENGTH'):
+                header_name = key.replace('_', '-').title()
+                headers_payload += f"{header_name}: {value}\r\n"
+        
+        try:
+            request_length = int(environ.get('CONTENT_LENGTH', 0))
+            request_body = environ['wsgi.input'].read(request_length)
+        except Exception:
+            request_body = b""
+            
+        full_raw_stream = request_line.encode('utf-8') + headers_payload.encode('utf-8') + b"\r\n" + request_body
+        mock_socket = UniversalMockSocket(full_raw_stream)
+        
+        if 'CaptureHandler' in globals():
+            handler_class = globals()['CaptureHandler']
+            handler_instance = handler_class.__new__(handler_class)
+            
+            # Establish stream linkages
+            handler_instance.request = mock_socket
+            handler_instance.client_address = ('127.0.0.1', 8080)
+            handler_instance.server = None
+            handler_instance.rfile = mock_socket.rfile
+            handler_instance.wfile = mock_socket.wfile
+            handler_instance.close_connection = True
+            
+            # Use native parsing routine to initialize requestline, command, path, and headers
+            handler_instance.handle_one_request()
+                
+            response_bytes = mock_socket.wfile.getvalue()
+            
+            if b"\r\n\r\n" in response_bytes:
+                raw_headers, body = response_bytes.split(b"\r\n\r\n", 1)
+            else:
+                raw_headers, body = response_bytes, b""
+                
+            header_lines = raw_headers.decode('utf-8', errors='ignore').split('\r\n')
+            status_line = header_lines[0]
+            status_code = status_line.split(' ')[1] if len(status_line.split(' ')) > 1 else "200"
+            status_text = f"{status_code} OK" if status_code == "200" else f"{status_code} Error"
+            
+            wsgi_headers = []
+            for line in header_lines[1:]:
+                if ":" in line:
+                    k, v = line.split(":", 1)
+                    wsgi_headers.append((k.strip(), v.strip()))
+                    
+            start_response(status_text, wsgi_headers)
+            return [body]
+            
+        start_response("500 Internal Server Error", [("Content-Type", "text/plain")])
+        return [b"CaptureHandler missing."]
+        
+    except Exception as e:
+        start_response("500 Internal Server Error", [("Content-Type", "text/plain")])
+        return [str(e).encode('utf-8')]
+
+app = handler
