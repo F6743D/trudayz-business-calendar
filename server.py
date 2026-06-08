@@ -76,6 +76,10 @@ class CaptureHandler(http.server.BaseHTTPRequestHandler):
             self.send_response(200)
             self.send_header("Content-type", "text/plain")
             self.end_headers()
+            if os.path.exists("index.html"):
+            with open("index.html", "r") as f:
+                self.wfile.write(f.read().encode("utf-8"))
+        else:
             self.wfile.write(b"Engine Active.")
 
     def do_POST(self):
