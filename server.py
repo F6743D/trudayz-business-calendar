@@ -157,3 +157,58 @@ if __name__ == "__main__":
         httpd.serve_forever()
     except KeyboardInterrupt:
         print("\nShutting down capture engine.")
+
+# Vercel Serverless WSGI Gateway Engine
+def handler(environ, start_response):
+    from io import BytesIO
+    import sys
+    
+    # Reconstruct request context for the existing CaptureHandler
+    class VercelRequest:
+        def __init__(self):
+            self.rfile = environ.get('wsgi.input', BytesIO())
+            self.headers = {k.replace('HTTP_', '').replace('_', '-').title(): v for k, v in environ.items() if k.startswith('HTTP_')}
+            if 'CONTENT_TYPE' in environ: self.headers['Content-Type'] = environ['CONTENT_TYPE']
+            if 'CONTENT_LENGTH' in environ: self.headers['Content-Length'] = environ['CONTENT_LENGTH']
+            self.command = environ.get('REQUEST_METHOD', 'GET')
+            self.path = environ.get('PATH_INFO', '/')
+            self.wfile = BytesIO()
+            self.status_code = 200
+            self.response_headers = []
+
+        def send_response(self, code):
+            self.status_code = code
+
+        def send_header(self, keyword, value):
+            self.response_headers.append((keyword, value))
+
+        def end_headers(self):
+            pass
+
+    req = VercelRequest()
+    try:
+        # Initialize database logic once inside the execution thread
+        init_db()
+        
+        # Instantiate and execute the existing capture logic dynamically
+        handler_instance = CaptureHandler(None, None, None)
+        handler_instance.rfile = req.rfile
+        handler_instance.wfile = req.wfile
+        handler_instance.headers = req.headers
+        handler_instance.command = req.command
+        handler_instance.path = req.path
+        
+        # Map routing execution
+        if req.command == 'POST':
+            handler_instance.do_POST()
+        else:
+            handler_instance.do_GET()
+            
+        status = f"{req.status_code} OK" if req.status_code == 200 else f"{req.status_code} Error"
+        start_response(status, req.response_headers)
+        return [req.wfile.getvalue()]
+    except Exception as e:
+        start_response("500 Internal Server Error", [("Content-Type", "text/plain")])
+        return [str(e).encode()]
+
+app = handler
