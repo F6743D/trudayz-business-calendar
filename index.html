@@ -103,6 +103,7 @@ footer{max-width:720px;margin:0 auto;padding-top:24px;border-top:1px solid var(-
 </header>
 <main>
 <div class="auth-bar"><span class="auth-user" id="authUser"></span><button class="auth-btn" id="authBtn">Sign in with Google</button></div>
+<div class="calc-counter" id="calcCounter"></div>
 <div class="card">
 <div class="card-label">Calculate</div>
 <div class="input-row">
@@ -155,7 +156,12 @@ document.getElementById('tb').addEventListener('click',tog);
 document.getElementById('saveBtn').addEventListener('click',saveCalc);
 document.getElementById('wlBtn').addEventListener('click',sub);
 document.getElementById('ei').addEventListener('keydown',e=>{if(e.key==='Enter')sub();});
+function getCalcCount(){return parseInt(localStorage.getItem("calcCount")||"0");}
+function incCalcCount(){const n=getCalcCount()+1;localStorage.setItem("calcCount",n);return n;}
+function showPaywall(){const m=document.getElementById("paywallModal");m.style.display="flex";}
+function updateCounter(){const count=getCalcCount();const el=document.getElementById("calcCounter");if(currentUser){el.textContent="";return;}const remaining=Math.max(0,FREE_LIMIT-count);if(remaining===0){el.innerHTML="<span style=color:var(--red)>No free calculations left</span>";}else{el.innerHTML=remaining+" of "+FREE_LIMIT+" free calculations remaining";}}
 async function go(){
+  if(!currentUser && getCalcCount()>=FREE_LIMIT){showPaywall();return;}
   const d=parseInt(document.getElementById('di').value);
   const s=document.getElementById('si').value;
   const btn=document.getElementById('cb');
@@ -166,6 +172,7 @@ async function go(){
     const data=await res.json();
     if(data.error)throw new Error(data.error);
     currentResult=data;
+if(!currentUser){incCalcCount();updateCounter();}
     document.getElementById('rp').style.display='block';
     document.getElementById('rd').textContent=data.end_date_formatted;
     document.getElementById('rn').textContent=data.business_days_requested+' business days from '+data.start_date;
@@ -238,5 +245,17 @@ onAuthStateChanged(auth,user=>{
 const mb2=document.getElementById('modalBtn');if(mb2)mb2.href=PUBLIC_LINK;document.getElementById('saved-section').style.display='none';}
 });
 </script>
+
+<div id="paywallModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:1000;align-items:center;justify-content:center;padding:20px;">
+<div style="background:#18181e;border:1px solid #22222e;border-radius:16px;padding:36px 28px;max-width:400px;width:100%;text-align:center;">
+<div style="font-size:36px;margin-bottom:16px;">⚡</div>
+<div style="font-size:22px;font-weight:700;margin-bottom:8px;">You have used your 5 free calculations</div>
+<div style="font-size:14px;color:#8888aa;line-height:1.6;margin-bottom:24px;">Unlock unlimited calculations, saved history, and every feature we build — forever.</div>
+<div style="font-size:36px;font-weight:700;font-family:monospace;margin-bottom:4px;" id="modalPrice">4</div>
+<div style="font-size:12px;color:#8888aa;margin-bottom:24px;">One time. No subscription.</div>
+<a id="modalBtn" href="https://buy.stripe.com/8x2eV716cg0I9ef7Mh67S00" style="background:#635bff;display:block;text-align:center;text-decoration:none;color:#fff;border-radius:8px;padding:16px 24px;font-size:13px;font-weight:600;text-transform:uppercase;margin-bottom:12px;">Get Lifetime Access</a>
+<div style="font-size:11px;color:#8888aa;" id="modalNote">Already paid? Sign in with Google to restore access.</div>
+</div>
+</div>
 </body>
 </html>
