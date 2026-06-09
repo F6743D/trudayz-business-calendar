@@ -96,7 +96,7 @@ footer{max-width:680px;margin:0 auto;padding-top:20px;border-top:1px solid var(-
 </div>
 </main>
 <footer><div class="fm">TruDayz - F6743D</div><div id="lc"></div><button id="authBtn" onclick="googleLogin()" style="margin:10px;padding:8px 16px;cursor:pointer">Sign in with Google</button></footer>
-<script>
+<script src="calc.js"></script><script>
 document.getElementById('si').value=new Date().toISOString().split('T')[0];
 fetch('/api/count').then(r=>r.json()).then(d=>{if(d.count>0)document.getElementById('lc').textContent=d.count+' on waitlist';}).catch(()=>{});
 async function go(){
