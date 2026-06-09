@@ -106,7 +106,7 @@ async function go(){
   if(!d||d<1){document.getElementById('di').focus();return;}
   btn.disabled=true;btn.textContent='Calculating...';
   try{
-    const res=await fetch('/api/calculate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({days:d,start_date:s})});
+    const res=await fetch('/api/calculate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({days:document.getElementById("di").value,start_date:s})});
     const data=await res.json();
     if(data.error)throw new Error(data.error);
     document.getElementById('rp').style.display='block';
@@ -131,7 +131,7 @@ async function sub(){
   if(!e||e.indexOf('@')<0){document.getElementById('ei').focus();return;}
   m.style.display='none';
   try{
-    const res=await fetch('https://formspree.io/f/xrevklyz',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:e,days:d,source:'web'})});
+    const res=await fetch('https://formspree.io/f/xrevklyz',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:e,days:document.getElementById("di").value,source:'web'})});
     const data=await res.json();
     m.style.display='block';
     if(res.ok){m.className='ok';m.textContent='You are on the list.';document.getElementById('ei').value='';}
