@@ -106,8 +106,7 @@ async function go(){
   if(!d||d<1){document.getElementById('di').focus();return;}
   btn.disabled=true;btn.textContent='Calculating...';
   try{
-    const res=await fetch('/api/calculate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({days:document.getElementById("di").value,start_date:s})});
-    const data=await res.json();
+      const data=calculate(parseInt(document.getElementById("di").value), s);
     if(data.error)throw new Error(data.error);
     document.getElementById('rp').style.display='block';
     document.getElementById('rd').textContent=data.end_date_formatted;
