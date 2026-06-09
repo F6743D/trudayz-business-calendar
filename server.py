@@ -19,6 +19,7 @@ LOCAL_LEADS=os.path.join(os.path.dirname(os.path.abspath(__file__)),"leads.txt")
 STATIC_DIR=os.path.dirname(os.path.abspath(__file__))
 ADMIN_KEY=os.environ.get("TRUDAYZ_ADMIN_KEY","admin_change_this")
 app=Flask(__name__,static_folder=STATIC_DIR)
+CORS(app, origins=["https://f6743d.github.io"])
 def get_key():
     return request.headers.get("X-API-Key","") or request.args.get("api_key","")
 def require_api_key(f):
