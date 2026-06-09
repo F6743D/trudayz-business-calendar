@@ -98,7 +98,7 @@ footer{max-width:680px;margin:0 auto;padding-top:20px;border-top:1px solid var(-
 <footer><div class="fm">TruDayz - F6743D</div><div id="lc"></div><button id="authBtn" onclick="googleLogin()" style="margin:10px;padding:8px 16px;cursor:pointer">Sign in with Google</button></footer>
 <script>
 document.getElementById('si').value=new Date().toISOString().split('T')[0];
-fetch('/api/count').then(r=>r.json()).then(d=>{if(d.count>0)document.getElementById('lc').textContent=d.count+' on waitlist';}).catch(()=>{});
+fetch('https://www.trudayz.com/api/count').then(r=>r.json()).then(d=>{if(d.count>0)document.getElementById('lc').textContent=d.count+' on waitlist';}).catch(()=>{});
 async function go(){
   const d=parseInt(document.getElementById('di').value);
   const s=document.getElementById('si').value;
@@ -106,7 +106,7 @@ async function go(){
   if(!d||d<1){document.getElementById('di').focus();return;}
   btn.disabled=true;btn.textContent='Calculating...';
   try{
-    const res=await fetch('/api/calculate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({days:document.getElementById("di").value,start_date:s})});
+    const res=await fetch('https://www.trudayz.com/api/calculate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({days:document.getElementById("di").value,start_date:s})});
     const data=await res.json();
     if(data.error)throw new Error(data.error);
     document.getElementById('rp').style.display='block';
