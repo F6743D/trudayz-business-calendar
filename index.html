@@ -109,6 +109,7 @@ async function go(){
       const data=calculate(parseInt(document.getElementById("di").value), s);
     if(data.error)throw new Error(data.error);
     document.getElementById('rp').style.display='block';
+      document.getElementById("saveBtn").style.display="block";
     document.getElementById('rd').textContent=data.end_date_formatted;
     document.getElementById('rn').textContent=data.business_days_requested+' business days from '+data.start_date;
     document.getElementById('mc').textContent=data.total_calendar_days;
