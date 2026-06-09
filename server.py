@@ -77,7 +77,6 @@ def get_count():
 def index():
     return send_from_directory(STATIC_DIR,"index.html")
 @app.route("/api/calculate",methods=["POST"])
-@require_api_key
 def api_calculate():
     try:
         data=request.get_json(force=True) or {}
@@ -89,7 +88,7 @@ def api_calculate():
             start=datetime.date.fromisoformat(data["start_date"])
         result=calculate(days,start)
         result["context"]=get_current_context()
-        result["usage"]={"calls_used":request.key_info.get("calls_used"),"calls_remaining":request.key_info.get("calls_remaining"),"tier":request.key_info.get("tier")}
+        result["usage"]={"calls_used":None,"calls_remaining":None,"tier":"public"}
         return jsonify(result)
     except Exception as e:
         return jsonify({"error":str(e)}),500
