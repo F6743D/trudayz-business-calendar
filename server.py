@@ -1,8 +1,8 @@
 import os,json,datetime
 from engine import calculate,get_current_context
 from keys import validate_key,get_usage,list_all_keys,TIER_LIMITS,TIER_PRICES
-from flask import
-from flask_cors import CORS Flask,request,jsonify,send_from_directory
+from flask import Flask,request,jsonify,send_from_directory
+from flask_cors import CORS
 from functools import wraps
 try:
     import psycopg2
