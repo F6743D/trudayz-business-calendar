@@ -59,8 +59,7 @@ def save_lead(email,days,source="web"):
     if email in existing:
         return "duplicate"
     with open(LOCAL_LEADS,"a") as f:
-        f.write(f"{email},{days},{source},{datetime.datetime.now().isoformat()}
-")
+        f.write(f"{email},{days},{source},{datetime.datetime.now().isoformat()}\n")
     return "saved"
 def get_count():
     if HAS_PG and DATABASE_URL:
