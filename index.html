@@ -133,9 +133,167 @@ footer{max-width:720px;margin:0 auto;padding-top:24px;border-top:1px solid var(-
 <a href="https://buy.stripe.com/8x2eV716cg0I9ef7Mh67S00" class="stripe-btn">Get Early Access - $14</a>
 <div id="cm"></div>
 </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TruDayz</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+:root{--black:#080809;--panel:#141418;--card:#18181e;--border:#22222e;--accent:#7c5cbf;--accent-dim:#3d1f6e;--accent-glow:rgba(124,92,191,0.15);--text:#f0f0ff;--muted:#8888aa;--subtle:#1e1e2a;--green:#2ecc71;--green-dim:#1a2d1a;--red:#e74c3c;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--black);color:var(--text);font-family:Inter,sans-serif;min-height:100vh;padding:0 16px 80px;}
+header{max-width:720px;margin:0 auto;padding:56px 0 40px;border-bottom:1px solid var(--border);}
+.brand{display:flex;align-items:center;gap:10px;margin-bottom:28px;}
+.brand-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent);}
+.brand-name{font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
+h1{font-size:clamp(28px,6vw,44px);font-weight:700;line-height:1.08;letter-spacing:-.04em;margin-bottom:16px;}
+h1 em{font-style:normal;background:linear-gradient(135deg,var(--accent),#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.sub{font-size:15px;color:var(--muted);line-height:1.65;max-width:500px;}
+main{max-width:720px;margin:0 auto;padding-top:36px;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:28px;margin-bottom:20px;}
+.card-label{font-size:10px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:18px;}
+.input-row{display:grid;grid-template-columns:1fr 1fr auto;gap:12px;align-items:end;}
+.field{display:flex;flex-direction:column;gap:6px;}
+.field label{font-size:10px;font-weight:600;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;}
+.field input{background:var(--black);border:1px solid var(--border);border-radius:8px;padding:13px 16px;font-size:20px;font-weight:700;color:var(--text);font-family:DM Mono,monospace;outline:none;width:100%;transition:border-color .2s;}
+.field input[type=date]{font-size:13px;font-weight:500;font-family:Inter,sans-serif;}
+.field input:focus{border-color:var(--accent);}
+.btn{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:14px 24px;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;white-space:nowrap;height:52px;transition:opacity .15s;font-family:Inter,sans-serif;}
+.btn:hover{opacity:.9;}.btn:disabled{opacity:.35;cursor:not-allowed;}
+.btn-save{background:var(--green-dim);border:1px solid var(--green);color:var(--green);margin-top:16px;width:100%;height:44px;font-size:11px;}
+.counter{font-size:11px;color:var(--muted);text-align:right;margin-bottom:8px;min-height:18px;}
+#rp{display:none;background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:20px;}
+.result-head{background:var(--panel);border-bottom:1px solid var(--border);padding:28px;}
+.result-label{font-size:10px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.result-date{font-size:clamp(22px,5vw,36px);font-weight:700;letter-spacing:-.03em;margin-bottom:4px;font-family:DM Mono,monospace;}
+.result-sub{font-size:12px;color:var(--muted);}
+.metrics{padding:20px 28px;border-bottom:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;}
+.metric-label{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:4px;}
+.metric-value{font-size:24px;font-weight:700;font-family:DM Mono,monospace;}
+.metric-sub{font-size:10px;color:var(--muted);margin-top:2px;}
+.timeline-header{padding:16px 28px 12px;display:flex;justify-content:space-between;align-items:center;}
+.toggle-btn{font-size:11px;color:var(--muted);cursor:pointer;background:none;border:none;text-decoration:underline;padding:0;}
+#tl{max-height:320px;overflow-y:auto;padding:0 28px 20px;display:none;}
+#tl.open{display:block;}
+.day-row{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--subtle);font-size:12px;}
+.day-row:last-child{border-bottom:none;}
+.day-icon{width:22px;height:22px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;}
+.day-icon.business{background:var(--subtle);color:var(--muted);}
+.day-icon.weekend{background:#1e1e30;color:var(--muted);}
+.day-icon.holiday{background:#2d1a1a;color:var(--red);}
+.day-icon.target{background:var(--green-dim);color:var(--green);font-weight:700;}
+.day-date{color:var(--muted);width:90px;flex-shrink:0;font-family:DM Mono,monospace;}
+.day-reason{color:var(--text);}
+.day-row.is-target .day-reason{color:var(--green);font-weight:600;}
+.save-area{padding:0 28px 24px;}
+.wl-head{font-size:16px;font-weight:600;margin-bottom:6px;}
+.wl-sub{font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.6;}
+.wl-row{display:grid;grid-template-columns:1fr auto;gap:10px;}
+.wl-row input{background:var(--black);border:1px solid var(--border);border-radius:8px;padding:13px 16px;font-size:14px;color:var(--text);outline:none;font-family:Inter,sans-serif;}
+.stripe-btn{background:#635bff;margin-top:10px;display:block;text-align:center;text-decoration:none;color:#fff;border-radius:8px;padding:14px 24px;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;}
+#cm{margin-top:10px;font-size:12px;display:none;}
+#cm.ok{color:var(--green);}#cm.err{color:var(--red);}
+#saved-section{display:none;margin-bottom:20px;}
+.saved-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+.saved-title{font-size:13px;font-weight:600;}
+.saved-count{font-size:11px;color:var(--muted);}
+.saved-card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:12px;}
+.saved-card-head{padding:16px 20px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;}
+.saved-card-left{display:flex;flex-direction:column;gap:4px;}
+.saved-date{font-size:18px;font-weight:700;font-family:DM Mono,monospace;}
+.saved-meta{font-size:11px;color:var(--muted);}
+.saved-card-right{display:flex;align-items:center;gap:12px;}
+.saved-badge{font-size:10px;font-weight:600;text-transform:uppercase;color:var(--accent);background:var(--accent-glow);border:1px solid var(--accent-dim);border-radius:4px;padding:3px 8px;}
+.saved-delete{background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;padding:4px;}
+.saved-delete:hover{color:var(--red);}
+.saved-card-body{display:none;padding:0 20px 16px;border-top:1px solid var(--border);}
+.saved-card-body.open{display:block;}
+.saved-metrics{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;padding:16px 0;border-bottom:1px solid var(--subtle);}
+.saved-metric-val{font-size:20px;font-weight:700;font-family:DM Mono,monospace;}
+.saved-metric-lbl{font-size:10px;color:var(--muted);text-transform:uppercase;margin-top:2px;}
+.saved-timeline{margin-top:12px;max-height:200px;overflow-y:auto;}
+#saved-empty{text-align:center;padding:32px;color:var(--muted);font-size:13px;border:1px dashed var(--border);border-radius:12px;}
+.auth-bar{display:flex;align-items:center;justify-content:flex-end;gap:12px;padding:12px 0;}
+.auth-user{font-size:12px;color:var(--muted);}
+.auth-btn{background:none;border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:7px 14px;font-size:11px;font-weight:500;cursor:pointer;font-family:Inter,sans-serif;}
+.auth-btn:hover{border-color:var(--accent);color:var(--accent);}
+footer{max-width:720px;margin:0 auto;padding-top:24px;border-top:1px solid var(--border);display:flex;justify-content:space-between;}
+.footer-brand{font-size:11px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;}
+#lc{font-size:11px;color:var(--muted);}
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.2);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:6px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px 20px;font-size:13px;opacity:0;transition:opacity .3s,transform .3s;pointer-events:none;z-index:999;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.toast.success{border-color:var(--green);color:var(--green);}
+.toast.error{border-color:var(--red);color:var(--red);}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:1000;align-items:center;justify-content:center;padding:20px;}
+.overlay.show{display:flex;}
+.modal{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:36px 28px;max-width:400px;width:100%;text-align:center;}
+.modal-icon{font-size:36px;margin-bottom:16px;}
+.modal-title{font-size:20px;font-weight:700;margin-bottom:8px;}
+.modal-sub{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:20px;}
+.modal-price{font-size:40px;font-weight:700;font-family:DM Mono,monospace;margin-bottom:4px;}
+.modal-price-sub{font-size:11px;color:var(--muted);margin-bottom:24px;}
+.modal-cta{background:#635bff;display:block;text-align:center;text-decoration:none;color:#fff;border-radius:8px;padding:16px;font-size:13px;font-weight:600;text-transform:uppercase;margin-bottom:12px;}
+.modal-note{font-size:11px;color:var(--muted);}
+@media(max-width:560px){.input-row{grid-template-columns:1fr}.btn{width:100%}.metrics{grid-template-columns:1fr 1fr}.wl-row{grid-template-columns:1fr}.wl-row .btn{width:100%}.saved-metrics{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<header>
+<div class="brand"><div class="brand-dot"></div><div class="brand-name">TruDayz</div></div>
+<h1>They said 90 business days.<br><em>That is actually 126 calendar days.</em></h1>
+<p class="sub">Business days hide weekends and bank holidays. TruDayz maps the real date so you know exactly when to expect it.</p>
+</header>
+<main>
+<div class="auth-bar"><span class="auth-user" id="authUser"></span><button class="auth-btn" id="authBtn">Sign in with Google</button></div>
+<div class="counter" id="counter"></div>
+<div class="card">
+<div class="card-label">Calculate</div>
+<div class="input-row">
+<div class="field"><label for="di">Business days quoted</label><input type="number" id="di" placeholder="68" min="1" max="1000"></div>
+<div class="field"><label for="si">Start date</label><input type="date" id="si"></div>
+<button class="btn" id="cb">Calculate</button>
+</div>
+</div>
+<div id="rp">
+<div class="result-head"><div class="result-label">True completion date</div><div class="result-date" id="rd">-</div><div class="result-sub" id="rn"></div></div>
+<div class="metrics">
+<div><div class="metric-label">Calendar days</div><div class="metric-value" id="mc">-</div><div class="metric-sub">total elapsed</div></div>
+<div><div class="metric-label">Weekends</div><div class="metric-value" id="mw">-</div><div class="metric-sub">system pauses</div></div>
+<div><div class="metric-label">Holidays</div><div class="metric-value" id="mh">-</div><div class="metric-sub">bank closures</div></div>
+</div>
+<div class="timeline-header"><div class="card-label" style="margin:0">Day-by-day</div><button class="toggle-btn" id="tb">Show</button></div>
+<div id="tl"></div>
+<div class="save-area"><button class="btn btn-save" id="saveBtn" style="display:none">Save this calculation</button></div>
+</div>
+<div id="saved-section">
+<div class="saved-header"><div class="saved-title">Saved Calculations</div><div class="saved-count" id="savedCount"></div></div>
+<div id="saved-list"><div id="saved-empty">No saved calculations yet.</div></div>
+</div>
+<div class="card">
+<div class="wl-head">Get TruDayz Pro - Free for Life</div>
+<div class="wl-sub">The calculator is free. Pay $14 once today and lock in Pro forever - saved calculations, PDF exports, and every feature we build.</div>
+<div class="wl-row"><input type="email" id="ei" placeholder="your@email.com"><button class="btn" id="wlBtn">Join waitlist</button></div>
+<a href="https://buy.stripe.com/8x2eV716cg0I9ef7Mh67S00" class="stripe-btn">Get Early Access - $14</a>
+<div id="cm"></div>
+</div>
 </main>
 <footer><div class="footer-brand">TruDayz - F6743D</div><div id="lc"></div></footer>
 <div class="toast" id="toast"></div>
+<div class="overlay" id="paywall">
+<div class="modal">
+<div class="modal-icon">⚡</div>
+<div class="modal-title">You have used your 5 free calculations</div>
+<div class="modal-sub">Unlock unlimited calculations, saved history, and every feature we build forever.</div>
+<div class="modal-price" id="mPrice">$14</div>
+<div class="modal-price-sub">One time. No subscription. Price goes up at launch.</div>
+<a class="modal-cta" id="mCta" href="https://buy.stripe.com/8x2eV716cg0I9ef7Mh67S00">Get Lifetime Access - $14</a>
+<div class="modal-note" id="mNote">Already paid? Sign in with Google to restore access.</div>
+</div>
+</div>
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import{getAuth,GoogleAuthProvider,signInWithPopup,signOut,onAuthStateChanged}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
@@ -143,100 +301,97 @@ import{getFirestore,collection,addDoc,getDocs,deleteDoc,doc,query,where,orderBy,
 const app=initializeApp({apiKey:"AIzaSyD13GxPB-2gWr1YVlCc92KdRupKVWi_HLE",authDomain:"trudayz-bd6d2.firebaseapp.com",projectId:"trudayz-bd6d2",storageBucket:"trudayz-bd6d2.firebasestorage.app",messagingSenderId:"87864199430",appId:"1:87864199430:web:54cd5f1db27b02e884f681"});
 const auth=getAuth(app),provider=new GoogleAuthProvider(),db=getFirestore(app);
 let currentResult=null,currentUser=null;
-document.getElementById('si').value=new Date().toISOString().split('T')[0];
-fetch('https://www.trudayz.com/api/count').then(r=>r.json()).then(d=>{if(d.count>0)document.getElementById('lc').textContent=d.count+' on waitlist';}).catch(()=>{});
-function showToast(msg,type='success'){const t=document.getElementById('toast');t.textContent=msg;t.className='toast '+type+' show';setTimeout(()=>t.className='toast '+type,2800);}
-document.getElementById('authBtn').addEventListener('click',async()=>{
-  if(currentUser){await signOut(auth);}else{await signInWithPopup(auth,provider);}
-});
-document.getElementById('cb').addEventListener('click',go);
-document.getElementById('di').addEventListener('keydown',e=>{if(e.key==='Enter')go();});
-document.getElementById('tb').addEventListener('click',tog);
-document.getElementById('saveBtn').addEventListener('click',saveCalc);
-document.getElementById('wlBtn').addEventListener('click',sub);
-document.getElementById('ei').addEventListener('keydown',e=>{if(e.key==='Enter')sub();});
+const FREE_LIMIT=5;
+const PUBLIC_LINK="https://buy.stripe.com/8x2eV716cg0I9ef7Mh67S00";
+const MEMBER_LINK="https://buy.stripe.com/8x200d3ekbKsaij4A567S01";
+document.getElementById("si").value=new Date().toISOString().split("T")[0];
+fetch("https://www.trudayz.com/api/count").then(r=>r.json()).then(d=>{if(d.count>0)document.getElementById("lc").textContent=d.count+" on waitlist";}).catch(()=>{});
+function getCount(){return parseInt(localStorage.getItem("td_count")||"0");}
+function addCount(){localStorage.setItem("td_count",getCount()+1);}
+function updateCounter(){
+  const el=document.getElementById("counter");
+  if(currentUser){el.textContent="";return;}
+  const rem=Math.max(0,FREE_LIMIT-getCount());
+  if(rem===0){el.innerHTML='No free calculations left &mdash; <a href="'+PUBLIC_LINK+'" style="color:var(--accent)">get unlimited for $14</a>';}
+  else{el.textContent=rem+" of "+FREE_LIMIT+" free calculations remaining";}
+}
+function showPaywall(){
+  if(currentUser){
+    document.getElementById("mPrice").textContent="$9";
+    document.getElementById("mCta").href=MEMBER_LINK;
+    document.getElementById("mCta").textContent="Get Member Discount - $9";
+    document.getElementById("mNote").textContent="Signed-in member discount applied!";
+  } else {
+    document.getElementById("mPrice").textContent="$14";
+    document.getElementById("mCta").href=PUBLIC_LINK;
+    document.getElementById("mCta").textContent="Get Lifetime Access - $14";
+    document.getElementById("mNote").textContent="Already paid? Sign in with Google to restore access.";
+  }
+  document.getElementById("paywall").classList.add("show");
+}
+function showToast(msg,type="success"){const t=document.getElementById("toast");t.textContent=msg;t.className="toast "+type+" show";setTimeout(()=>t.className="toast "+type,2800);}
+document.getElementById("authBtn").addEventListener("click",async()=>{if(currentUser){await signOut(auth);}else{await signInWithPopup(auth,provider);}});
+document.getElementById("cb").addEventListener("click",go);
+document.getElementById("di").addEventListener("keydown",e=>{if(e.key==="Enter")go();});
+document.getElementById("tb").addEventListener("click",tog);
+document.getElementById("saveBtn").addEventListener("click",saveCalc);
+document.getElementById("wlBtn").addEventListener("click",sub);
+document.getElementById("ei").addEventListener("keydown",e=>{if(e.key==="Enter")sub();});
 async function go(){
-  const d=parseInt(document.getElementById('di').value);
-  const s=document.getElementById('si').value;
-  const btn=document.getElementById('cb');
-  if(!d||d<1){document.getElementById('di').focus();return;}
-  btn.disabled=true;btn.innerHTML='<span class="spinner"></span>Calculating...';
+  if(!currentUser&&getCount()>=FREE_LIMIT){showPaywall();return;}
+  const d=parseInt(document.getElementById("di").value);
+  const s=document.getElementById("si").value;
+  const btn=document.getElementById("cb");
+  if(!d||d<1){document.getElementById("di").focus();return;}
+  btn.disabled=true;btn.innerHTML="<span class='spinner'></span>Calculating...";
   try{
-    const res=await fetch('https://www.trudayz.com/api/calculate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({days:d,start_date:s})});
+    const res=await fetch("https://www.trudayz.com/api/calculate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({days:d,start_date:s})});
     const data=await res.json();
     if(data.error)throw new Error(data.error);
     currentResult=data;
-    document.getElementById('rp').style.display='block';
-    document.getElementById('rd').textContent=data.end_date_formatted;
-    document.getElementById('rn').textContent=data.business_days_requested+' business days from '+data.start_date;
-    document.getElementById('mc').textContent=data.total_calendar_days;
-    document.getElementById('mw').textContent=data.weekends_skipped;
-    document.getElementById('mh').textContent=data.holidays_skipped;
-    const ic={business:'v',weekend:'.',holiday:'x',target:'*'};
-    document.getElementById('tl').innerHTML=data.timeline.map(x=>'<div class="day-row '+(x.type==='target'?'is-target':'')+'"><div class="day-icon '+x.type+'">'+(ic[x.type]||'v')+'</div><div class="day-date">'+x.label+'</div><div class="day-reason">'+x.reason+'</div></div>').join('');
-    if(data.timeline.length<=30){document.getElementById('tl').classList.add('open');document.getElementById('tb').textContent='Hide';}
-    document.getElementById('rp').scrollIntoView({behavior:'smooth',block:'nearest'});
-    if(currentUser)document.getElementById('saveBtn').style.display='block';
-  }catch(e){showToast(e.message||'Error','error');}
-  finally{btn.disabled=false;btn.textContent='Calculate';}
+    if(!currentUser){addCount();updateCounter();}
+    document.getElementById("rp").style.display="block";
+    document.getElementById("rd").textContent=data.end_date_formatted;
+    document.getElementById("rn").textContent=data.business_days_requested+" business days from "+data.start_date;
+    document.getElementById("mc").textContent=data.total_calendar_days;
+    document.getElementById("mw").textContent=data.weekends_skipped;
+    document.getElementById("mh").textContent=data.holidays_skipped;
+    const ic={business:"v",weekend:".",holiday:"x",target:"*"};
+    document.getElementById("tl").innerHTML=data.timeline.map(x=>"<div class='day-row "+(x.type==="target"?"is-target":"")+"'><div class='day-icon "+x.type+"'>"+(ic[x.type]||"v")+"</div><div class='day-date'>"+x.label+"</div><div class='day-reason'>"+x.reason+"</div></div>").join("");
+    if(data.timeline.length<=30){document.getElementById("tl").classList.add("open");document.getElementById("tb").textContent="Hide";}
+    document.getElementById("rp").scrollIntoView({behavior:"smooth",block:"nearest"});
+    if(currentUser)document.getElementById("saveBtn").style.display="block";
+    if(!currentUser&&getCount()>=FREE_LIMIT){setTimeout(showPaywall,1500);}
+  }catch(e){showToast(e.message||"Error","error");}
+  finally{btn.disabled=false;btn.textContent="Calculate";}
 }
-function tog(){const l=document.getElementById('tl'),b=document.getElementById('tb');b.textContent=l.classList.toggle('open')?'Hide':'Show';}
+function tog(){const l=document.getElementById("tl"),b=document.getElementById("tb");b.textContent=l.classList.toggle("open")?"Hide":"Show";}
 async function sub(){
-  const e=document.getElementById('ei').value.trim();
-  const m=document.getElementById('cm');
-  if(!e||e.indexOf('@')<0){document.getElementById('ei').focus();return;}
-  m.style.display='none';
+  const e=document.getElementById("ei").value.trim();
+  const m=document.getElementById("cm");
+  if(!e||e.indexOf("@")<0){document.getElementById("ei").focus();return;}
+  m.style.display="none";
   try{
-    const res=await fetch('https://formspree.io/f/xrevklyz',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:e,source:'web'})});
+    const res=await fetch("https://formspree.io/f/xrevklyz",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:e,source:"web"})});
     const data=await res.json();
-    m.style.display='block';
-    if(res.ok){m.className='ok';m.textContent='You are on the list.';document.getElementById('ei').value='';}
-    else{m.className='err';m.textContent=data.message||'Something went wrong.';}
-  }catch(ex){m.style.display='block';m.className='err';m.textContent='Could not connect.';}
+    m.style.display="block";
+    if(res.ok){m.className="ok";m.textContent="You are on the list.";document.getElementById("ei").value="";}
+    else{m.className="err";m.textContent=data.message||"Something went wrong.";}
+  }catch(ex){m.style.display="block";m.className="err";m.textContent="Could not connect.";}
 }
 async function saveCalc(){
   if(!currentUser||!currentResult)return;
-  const btn=document.getElementById('saveBtn');
-  btn.disabled=true;btn.textContent='Saving...';
+  const btn=document.getElementById("saveBtn");
+  btn.disabled=true;btn.textContent="Saving...";
   try{
-    await addDoc(collection(db,'calculations'),{uid:currentUser.uid,result:currentResult,createdAt:serverTimestamp()});
-    btn.textContent='Saved';showToast('Saved!','success');loadSaved();
-    setTimeout(()=>{btn.textContent='Save this calculation';btn.disabled=false;},2000);
-  }catch(e){showToast('Could not save','error');btn.disabled=false;btn.textContent='Save this calculation';}
+    await addDoc(collection(db,"calculations"),{uid:currentUser.uid,result:currentResult,createdAt:serverTimestamp()});
+    btn.textContent="Saved";showToast("Saved!","success");loadSaved();
+    setTimeout(()=>{btn.textContent="Save this calculation";btn.disabled=false;},2000);
+  }catch(e){showToast("Could not save","error");btn.disabled=false;btn.textContent="Save this calculation";}
 }
 async function deleteCalc(id){
-  try{await deleteDoc(doc(db,'calculations',id));showToast('Deleted','success');loadSaved();}
-  catch(e){showToast('Could not delete','error');}
+  try{await deleteDoc(doc(db,"calculations",id));showToast("Deleted","success");loadSaved();}
+  catch(e){showToast("Could not delete","error");}
 }
-function toggleSaved(id){document.getElementById('sb-'+id)?.classList.toggle('open');}
-async function loadSaved(){
-  if(!currentUser)return;
-  const section=document.getElementById('saved-section');
-  const list=document.getElementById('saved-list');
-  section.style.display='block';
-  try{
-    const snap=await getDocs(query(collection(db,'calculations'),where('uid','==',currentUser.uid),orderBy('createdAt','desc')));
-    const docs=[];snap.forEach(d=>docs.push({id:d.id,...d.data()}));
-    document.getElementById('savedCount').textContent=docs.length+' saved';
-    if(!docs.length){list.innerHTML='<div id="saved-empty">No saved calculations yet.</div>';return;}
-    const ic={business:'v',weekend:'.',holiday:'x',target:'*'};
-    list.innerHTML=docs.map(d=>{
-      const r=d.result;
-      const tl=r.timeline?r.timeline.map(x=>'<div class="day-row '+(x.type==='target'?'is-target':'')+'"><div class="day-icon '+x.type+'">'+(ic[x.type]||'v')+'</div><div class="day-date">'+x.label+'</div><div class="day-reason">'+x.reason+'</div></div>').join(''):'';
-      return '<div class="saved-card"><div class="saved-card-head" onclick="toggleSaved(\''+d.id+'\')"><div class="saved-card-left"><div class="saved-date">'+(r.end_date_formatted||'-')+'</div><div class="saved-meta">'+(r.business_days_requested||'?')+' biz days from '+(r.start_date||'?')+'</div></div><div class="saved-card-right"><span class="saved-badge">'+(r.total_calendar_days||'?')+' days</span><button class="saved-delete" onclick="event.stopPropagation();deleteCalc(\''+d.id+'\')">x</button></div></div><div class="saved-card-body" id="sb-'+d.id+'"><div class="saved-metrics"><div><div class="saved-metric-val">'+(r.total_calendar_days||'-')+'</div><div class="saved-metric-lbl">Calendar days</div></div><div><div class="saved-metric-val">'+(r.weekends_skipped||'-')+'</div><div class="saved-metric-lbl">Weekends</div></div><div><div class="saved-metric-val">'+(r.holidays_skipped||'-')+'</div><div class="saved-metric-lbl">Holidays</div></div></div>'+(tl?'<div class="saved-timeline">'+tl+'</div>':'')+'</div></div>';
-    }).join('');
-    window.toggleSaved=toggleSaved;
-    window.deleteCalc=deleteCalc;
-  }catch(e){list.innerHTML='<div id="saved-empty">Could not load.</div>';}
-}
-onAuthStateChanged(auth,user=>{
-  currentUser=user;
-  const btn=document.getElementById('authBtn');
-  const userEl=document.getElementById('authUser');
-  if(user){btn.textContent='Sign out';userEl.textContent=user.displayName||user.email;if(currentResult)document.getElementById('saveBtn').style.display='block';loadSaved();}
-  else{btn.textContent='Sign in with Google';userEl.textContent='';document.getElementById('saveBtn').style.display='none';
-const mb2=document.getElementById('modalBtn');if(mb2)mb2.href=PUBLIC_LINK;document.getElementById('saved-section').style.display='none';}
-});
-</script>
-</body>
+function tog</body>
 </html>
