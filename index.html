@@ -94,9 +94,9 @@ footer{max-width:680px;margin:0 auto;padding-top:20px;border-top:1px solid var(-
 </div>
 
 </div>
-<button id="saveBtn" onclick="saveCalc(document.getElementById('di').value,document.getElementById('si').value,document.getElementById('rd').textContent)" style="display:none;position:fixed;bottom:20px;right:20px;padding:12px 20px;background:#22c55e;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:16px;z-index:999">💾 Save</button></main>
+<button id="saveBtn" id="saveBtn" style="display:none;position:fixed;bottom:20px;right:20px;padding:12px 20px;background:#22c55e;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:16px;z-index:999">💾 Save</button></main>
 <footer><div class="fm">TruDayz - F6743D</div><div id="lc"></div><button id="authBtn" onclick="googleLogin()" style="margin:10px;padding:8px 16px;cursor:pointer">Sign in with Google</button></footer>
-<script src="calc.js"></script><script>
+<script src="calc.js"></script><script type="module">
 document.getElementById('si').value=new Date().toISOString().split('T')[0];
 fetch('/api/count').then(r=>r.json()).then(d=>{if(d.count>0)document.getElementById('lc').textContent=d.count+' on waitlist';}).catch(()=>{});
 async function go(){
@@ -141,34 +141,4 @@ async function sub(){
 document.getElementById('ei').addEventListener('keydown',e=>{if(e.key==='Enter')sub();});
 </script>
 </body>
-</html><script>
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyD13GxPB-2gWr1YVlCc92KdRupKVWi_HLE",
-  authDomain: "trudayz-bd6d2.firebaseapp.com",
-  projectId: "trudayz-bd6d2",
-  storageBucket: "trudayz-bd6d2.firebasestorage.app",
-  messagingSenderId: "87864199430",
-  appId: "1:87864199430:web:54cd5f1db27b02e884f681"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const provider = new GoogleAuthProvider();
-
-window.googleLogin = () => signInWithPopup(auth, provider);
-window.googleLogout = () => signOut(auth);
-
-onAuthStateChanged(auth, user => {
-  const btn = document.getElementById("authBtn");
-  if(user){
-    btn.textContent = "Sign out (" + user.displayName + ")";
-    btn.onclick = window.googleLogout;
-  } else {
-    btn.textContent = "Sign in with Google";
-    btn.onclick = window.googleLogin;
-  }
-});
-</script>
+</html>
