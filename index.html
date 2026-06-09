@@ -140,5 +140,14 @@ async function sub(){
 }
 document.getElementById('ei').addEventListener('keydown',e=>{if(e.key==='Enter')sub();});
 </script>
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import{getAuth,GoogleAuthProvider,signInWithPopup,signOut,onAuthStateChanged}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import{getFirestore,collection,addDoc}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+const app=initializeApp({apiKey:"AIzaSyD13GxPB-2gWr1YVlCc92KdRupKVWi_HLE",authDomain:"trudayz-bd6d2.firebaseapp.com",projectId:"trudayz-bd6d2",storageBucket:"trudayz-bd6d2.firebasestorage.app",messagingSenderId:"87864199430",appId:"1:87864199430:web:54cd5f1db27b02e884f681"});
+const auth=getAuth(app);const db=getFirestore(app);const provider=new GoogleAuthProvider();
+onAuthStateChanged(auth,user=>{const btn=document.getElementById("authBtn");if(!btn)return;if(user){btn.textContent="Sign out ("+user.displayName+")";btn.onclick=()=>signOut(auth);}else{btn.textContent="Sign in with Google";btn.onclick=()=>signInWithPopup(auth,provider);}});
+document.addEventListener("DOMContentLoaded",()=>{document.getElementById("saveBtn").addEventListener("click",async()=>{const user=auth.currentUser;if(!user){alert("Sign in first");return;}await addDoc(collection(db,"calculations"),{uid:user.uid,days:document.getElementById("di").value,startDate:document.getElementById("si").value,result:document.getElementById("rd").textContent,createdAt:new Date().toISOString()});alert("Saved!");});});
+</script>
 </body>
 </html>
