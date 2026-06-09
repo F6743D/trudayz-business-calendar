@@ -234,7 +234,8 @@ onAuthStateChanged(auth,user=>{
   const btn=document.getElementById('authBtn');
   const userEl=document.getElementById('authUser');
   if(user){btn.textContent='Sign out';userEl.textContent=user.displayName||user.email;if(currentResult)document.getElementById('saveBtn').style.display='block';loadSaved();}
-  else{btn.textContent='Sign in with Google';userEl.textContent='';document.getElementById('saveBtn').style.display='none';document.getElementById('saved-section').style.display='none';}
+  else{btn.textContent='Sign in with Google';userEl.textContent='';document.getElementById('saveBtn').style.display='none';
+const mb2=document.getElementById('modalBtn');if(mb2)mb2.href=PUBLIC_LINK;document.getElementById('saved-section').style.display='none';}
 });
 </script>
 </body>
