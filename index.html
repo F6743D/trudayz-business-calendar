@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TruDayz</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{--black:#080809;--panel:#141418;--card:#18181e;--border:#22222e;--accent:#7c5cbf;--text:#f0f0ff;--muted:#8888aa;--subtle:#1e1e2a;--green:#2ecc71;--green-dim:#1a2d1a;--red:#e74c3c;}
@@ -60,26 +59,20 @@ main{max-width:720px;margin:0 auto;padding-top:36px;}
 #cm.ok{color:var(--green);}#cm.err{color:var(--red);}
 footer{max-width:720px;margin:0 auto;padding-top:24px;border-top:1px solid var(--border);display:flex;justify-content:space-between;}
 .footer-brand{font-size:11px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;}
-#lc{font-size:11px;color:var(--muted);}
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px 20px;font-size:13px;opacity:0;transition:opacity .3s,transform .3s;pointer-events:none;z-index:999;}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-.toast.success{border-color:var(--green);color:var(--green);}
-.toast.error{border-color:var(--red);color:var(--red);}
 .usage-wrap{margin-top:16px;}
-.usage-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+.usage-row{display:flex;justify-content:space-between;margin-bottom:6px;}
 .usage-label{font-size:11px;color:var(--muted);}
 .usage-count{font-size:11px;font-weight:600;color:var(--text);}
 .usage-track{height:3px;background:var(--border);border-radius:99px;overflow:hidden;}
-.usage-fill{height:100%;background:var(--accent);border-radius:99px;transition:width .4s ease;}
+.usage-fill{height:100%;background:var(--accent);border-radius:99px;transition:width .4s;}
 .auth-bar{display:flex;align-items:center;justify-content:flex-end;gap:10px;padding:12px 0;}
 .auth-user{font-size:12px;color:var(--muted);}
 .auth-btn{background:none;border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:7px 14px;font-size:11px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif;}
-.auth-btn:hover{border-color:var(--accent);color:var(--accent);}
-#paywall{display:none;position:fixed;inset:0;background:rgba(8,8,9,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);z-index:500;align-items:center;justify-content:center;padding:24px;}
+#paywall{display:none;position:fixed;inset:0;background:rgba(8,8,9,.88);backdrop-filter:blur(14px);z-index:500;align-items:center;justify-content:center;padding:24px;}
 #paywall.active{display:flex;}
 .pw-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:36px 32px;max-width:400px;width:100%;text-align:center;}
 .pw-icon{font-size:32px;margin-bottom:20px;}
-.pw-box h2{font-size:22px;font-weight:700;letter-spacing:-.02em;margin-bottom:10px;}
+.pw-box h2{font-size:22px;font-weight:700;margin-bottom:10px;}
 .pw-box p{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:16px;}
 .pw-price{font-size:28px;font-weight:700;margin-bottom:4px;}
 .pw-price-sub{font-size:12px;color:var(--muted);margin-bottom:20px;}
@@ -87,9 +80,7 @@ footer{max-width:720px;margin:0 auto;padding-top:24px;border-top:1px solid var(-
 .pw-features li{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px;}
 .pw-features li::before{content:'✓';color:var(--green);font-weight:700;}
 .pw-upgrade{width:100%;background:#635bff;color:#fff;border:none;border-radius:8px;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;padding:14px;cursor:pointer;margin-bottom:10px;}
-.pw-upgrade:hover{opacity:.9;}
-.pw-signin{width:100%;background:none;border:1px solid var(--border);color:var(--text);border-radius:8px;font-family:'Inter',sans-serif;font-size:13px;font-weight:500;padding:12px;cursor:pointer;margin-bottom:10px;display:none;}
-.pw-signin:hover{border-color:var(--accent);color:var(--accent);}
+.pw-signin{width:100%;background:none;border:1px solid var(--border);color:var(--text);border-radius:8px;font-family:'Inter',sans-serif;font-size:13px;padding:12px;cursor:pointer;margin-bottom:10px;display:none;}
 .pw-dismiss{background:none;border:none;color:var(--muted);font-family:'Inter',sans-serif;font-size:12px;cursor:pointer;padding:6px;}
 @media(max-width:560px){.input-row{grid-template-columns:1fr}.btn{width:100%}.metrics{grid-template-columns:1fr 1fr}.wl-row{grid-template-columns:1fr}.wl-row .btn{width:100%}}
 </style>
@@ -102,8 +93,8 @@ footer{max-width:720px;margin:0 auto;padding-top:24px;border-top:1px solid var(-
 </header>
 <main>
 <div class="auth-bar">
-  <span class="auth-user" id="authUser"></span>
-  <button class="auth-btn" id="authBtn" onclick="handleAuth()">Sign in with Google</button>
+<span class="auth-user" id="authUser"></span>
+<button class="auth-btn" id="authBtn" onclick="handleAuth()">Sign in with Google</button>
 </div>
 <div class="card">
 <div class="card-label">Calculate</div>
@@ -113,10 +104,7 @@ footer{max-width:720px;margin:0 auto;padding-top:24px;border-top:1px solid var(-
 <button class="btn" onclick="go()">Calculate</button>
 </div>
 <div class="usage-wrap">
-<div class="usage-row">
-<span class="usage-label" id="usageLabel">Free calculations this week</span>
-<span class="usage-count" id="usageCount">5 / 5 remaining</span>
-</div>
+<div class="usage-row"><span class="usage-label" id="usageLabel">Free calculations this week</span><span class="usage-count" id="usageCount">5 / 5 remaining</span></div>
 <div class="usage-track"><div class="usage-fill" id="usageFill" style="width:100%"></div></div>
 </div>
 </div>
@@ -131,112 +119,33 @@ footer{max-width:720px;margin:0 auto;padding-top:24px;border-top:1px solid var(-
 <div id="tl"></div>
 </div>
 <div class="card">
-<div class="wl-head">Upgrade to TruDayz Pro — $14</div>
-<div class="wl-sub">
-  <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;margin-top:8px;">
-    <li style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)"><span style="color:var(--green);font-weight:700">✓</span> Saved calculations</li>
-    <li style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)"><span style="color:var(--green);font-weight:700">✓</span> PDF export</li>
-    <li style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)"><span style="color:var(--green);font-weight:700">✓</span> Unlimited calculations</li>
-  </ul>
-</div>
+<div class="wl-head">Get TruDayz Pro - Free for Life</div>
+<div class="wl-sub">The calculator is free. Pay $14 once today and lock in Pro forever - saved calculations, PDF exports, custom start dates, and every feature we build.</div>
 <div class="wl-row"><input type="email" id="ei" placeholder="your@email.com"><button class="btn" onclick="sub()">Join waitlist</button></div>
 <a href="https://buy.stripe.com/8x2eV716cg0I9ef7Mh67S00" class="stripe-btn" id="stripeBtn">Get Early Access - $14</a>
 <div id="cm"></div>
 </div>
 </main>
-<footer><div class="footer-brand">TruDayz - F6743D</div><div id="lc"></div></footer>
-<div class="toast" id="toast"></div>
+<footer><div class="footer-brand">TruDayz - F6743D</div></footer>
 <div id="paywall">
 <div class="pw-box">
 <div class="pw-icon">⚡</div>
 <h2 id="pwTitle">You've used your 5 free calculations this week</h2>
-<p id="pwDesc">Sign in with Google to get 10 calculations this week, or upgrade to Pro.</p>
+<p id="pwDesc">Sign in with Google to get 10/week, or upgrade to Pro.</p>
 <div class="pw-price" id="pwPrice">$14</div>
 <div class="pw-price-sub" id="pwPriceSub">one-time · Pro for life</div>
-<ul class="pw-features">
-<li>Unlimited calculations</li>
-<li>Save &amp; revisit past results</li>
-<li>PDF exports</li>
-<li>Custom holiday calendars</li>
-</ul>
-<button class="pw-upgrade" id="pwUpgrade" onclick="window.open('https://buy.stripe.com/8x2eV716cg0I9ef7Mh67S00','_blank')">Get Early Access — $14 once</button>
+<ul class="pw-features"><li>Unlimited calculations</li><li>Save results</li><li>PDF exports</li><li>Custom holidays</li></ul>
+<button class="pw-upgrade" onclick="window.open('https://buy.stripe.com/8x2eV716cg0I9ef7Mh67S00','_blank')">Get Early Access — $14 once</button>
 <button class="pw-signin" id="pwSignin" onclick="handleAuth()">Sign in with Google — get 10/week free</button>
 <button class="pw-dismiss" onclick="document.getElementById('paywall').classList.remove('active')">Maybe later</button>
 </div>
 </div>
-
 <script>
-var CLIENT_ID='87864199430-ov9spm97rtd2r6md0kbfpfcje4gajevn.apps.googleusercontent.com';
-var REDIRECT='https://trudayz.com';
 var currentUser=null;
-
-// ── Google OAuth redirect ─────────────────────────────────────────────────
-function handleAuth(){
-  if(currentUser){
-    currentUser=null;
-    localStorage.removeItem('tdyz_user');
-    document.getElementById('authUser').textContent='';
-    document.getElementById('authBtn').textContent='Sign in with Google';
-    document.getElementById('stripeBtn').textContent='Get Early Access - $14';
-    bar();
-    return;
-  }
-  var state=Math.random().toString(36).slice(2);
-  localStorage.setItem('tdyz_state',state);
-  var url='https://accounts.google.com/o/oauth2/v2/auth'
-    +'?client_id='+encodeURIComponent(CLIENT_ID)
-    +'&redirect_uri='+encodeURIComponent(REDIRECT)
-    +'&response_type=token'
-    +'&scope='+encodeURIComponent('openid email profile')
-    +'&state='+state;
-  window.location.href=url;
-}
-
-// ── Handle redirect back from Google ─────────────────────────────────────
-function handleOAuthReturn(){
-  var hash=window.location.hash;
-  if(!hash||hash.indexOf('access_token')<0)return;
-  var params={};
-  hash.slice(1).split('&').forEach(function(p){var kv=p.split('=');params[kv[0]]=decodeURIComponent(kv[1]||'');});
-  var token=params['access_token'];
-  var state=params['state'];
-  if(!token)return;
-  // Clear hash from URL
-  history.replaceState(null,null,' ');
-  // Fetch user info from Google
-  fetch('https://www.googleapis.com/oauth2/v3/userinfo',{headers:{Authorization:'Bearer '+token}})
-  .then(function(r){return r.json();})
-  .then(function(u){
-    currentUser={name:u.name,email:u.email};
-    localStorage.setItem('tdyz_user',JSON.stringify(currentUser));
-    setSignedIn();
-    showToast('Signed in as '+u.name,'success');
-  }).catch(function(){showToast('Sign-in failed','error');});
-}
-
-function setSignedIn(){
-  document.getElementById('authUser').textContent=currentUser.name||currentUser.email;
-  document.getElementById('authBtn').textContent='Sign out';
-  document.getElementById('stripeBtn').textContent='Get Early Access — $5 (signed-in discount)';
-  document.getElementById('paywall').classList.remove('active');
-  bar();
-}
-
-// ── Holidays ──────────────────────────────────────────────────────────────
-function getHolidays(y){
-  var h={};
-  function add(m,d){h[y+'-'+('0'+m).slice(-2)+'-'+('0'+d).slice(-2)]=1;}
-  function nth(dow,n,m){var c=0,d=new Date(y,m-1,1);while(1){if(d.getDay()==dow&&++c==n)return d.getDate();d.setDate(d.getDate()+1);}}
-  function last(dow,m){var d=new Date(y,m,0);while(d.getDay()!=dow)d.setDate(d.getDate()-1);return d.getDate();}
-  add(1,1);add(7,4);add(11,11);add(12,25);
-  add(1,nth(1,3,1));add(2,nth(1,3,2));add(5,last(1,5));
-  add(9,nth(1,1,9));add(10,nth(1,2,10));add(11,nth(4,4,11));
-  return h;
-}
+var CLIENT_ID='87864199430-ov9spm97rtd2r6md0kbfpfcje4gajevn.apps.googleusercontent.com';
+function getHolidays(y){var h={};function add(m,d){h[y+'-'+('0'+m).slice(-2)+'-'+('0'+d).slice(-2)]=1;}function nth(dow,n,m){var c=0,d=new Date(y,m-1,1);while(1){if(d.getDay()==dow&&++c==n)return d.getDate();d.setDate(d.getDate()+1);}}function last(dow,m){var d=new Date(y,m,0);while(d.getDay()!=dow)d.setDate(d.getDate()-1);return d.getDate();}add(1,1);add(7,4);add(11,11);add(12,25);add(1,nth(1,3,1));add(2,nth(1,3,2));add(5,last(1,5));add(9,nth(1,1,9));add(10,nth(1,2,10));add(11,nth(4,4,11));return h;}
 function dk(d){return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);}
 function isBiz(d){var w=d.getDay();return w!=0&&w!=6&&!getHolidays(d.getFullYear())[dk(d)];}
-
-// ── Usage ─────────────────────────────────────────────────────────────────
 var LF=5,LA=10,KF='tdyz_free',KA='tdyz_auth';
 function wk(){var d=new Date(),n=d.getDay()||7;d.setDate(d.getDate()-n+1);return d.toISOString().slice(0,10);}
 function getCount(k){try{var r=JSON.parse(localStorage.getItem(k)||'{}');return r.w==wk()?r.c||0:0;}catch(e){return 0;}}
@@ -244,58 +153,20 @@ function bump(k){try{localStorage.setItem(k,JSON.stringify({w:wk(),c:getCount(k)
 function getLimit(){return currentUser?LA:LF;}
 function getKey(){return currentUser?KA:KF;}
 function left(){return Math.max(0,getLimit()-getCount(getKey()));}
-function bar(){
-  var r=left(),lim=getLimit();
-  document.getElementById('usageCount').textContent=r+' / '+lim+' remaining';
-  document.getElementById('usageFill').style.width=(r/lim*100)+'%';
-  document.getElementById('usageFill').style.background=r<=1?'var(--red)':r<=2?'#f59e0b':'var(--accent)';
-  document.getElementById('usageLabel').textContent=(currentUser?'Signed-in':'Free')+' calculations this week';
-}
-
-// ── Calculator ────────────────────────────────────────────────────────────
-function go(){
-  if(left()<=0){showPaywall();return;}
-  var n=parseInt(document.getElementById('di').value);
-  var s=document.getElementById('si').value;
-  if(!n||n<1){showToast('Enter business days','error');return;}
-  if(!s){showToast('Pick a start date','error');return;}
-  var start=new Date(s+'T12:00:00'),d=new Date(start),c=0,tl=[];
-  while(c<n){
-    d.setDate(d.getDate()+1);
-    var w=d.getDay(),hol=getHolidays(d.getFullYear())[dk(d)],biz=w!=0&&w!=6&&!hol;
-    if(biz)c++;
-    tl.push({t:hol?'holiday':w==0||w==6?'weekend':c==n?'target':'business',l:d.toLocaleDateString('en-US',{month:'short',day:'numeric'}),r:hol?'Bank holiday':w==0?'Sunday':w==6?'Saturday':c==n?'Target date':'Business day'});
-  }
-  var cal=Math.round((d-start)/864e5);
-  document.getElementById('rd').textContent=d.toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-  document.getElementById('rn').textContent=n+' business days from '+start.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
-  document.getElementById('mc').textContent=cal;
-  document.getElementById('mw').textContent=tl.filter(function(x){return x.t=='weekend';}).length;
-  document.getElementById('mh').textContent=tl.filter(function(x){return x.t=='holiday';}).length;
-  var ic={business:'v',weekend:'.',holiday:'x',target:'*'};
-  document.getElementById('tl').innerHTML=tl.map(function(x){return'<div class="day-row'+(x.t=='target'?' is-target':'')+'"><div class="day-icon '+x.t+'">'+(ic[x.t]||'v')+'</div><div class="day-date">'+x.l+'</div><div class="day-reason">'+x.r+'</div></div>';}).join('');
-  if(tl.length<=30)document.getElementById('tl').classList.add('open');
-  document.getElementById('rp').style.display='block';
-  document.getElementById('rp').scrollIntoView({behavior:'smooth',block:'nearest'});
-  bump(getKey());bar();
-  if(left()<=0)setTimeout(showPaywall,600);
-}
-
+function bar(){var r=left(),lim=getLimit();document.getElementById('usageCount').textContent=r+' / '+lim+' remaining';document.getElementById('usageFill').style.width=(r/lim*100)+'%';document.getElementById('usageFill').style.background=r<=1?'var(--red)':r<=2?'#f59e0b':'var(--accent)';document.getElementById('usageLabel').textContent=(currentUser?'Signed-in':'Free')+' calculations this week';}
+function go(){if(left()<=0){showPaywall();return;}var n=parseInt(document.getElementById('di').value),s=document.getElementById('si').value;if(!n||n<1){alert('Enter business days');return;}if(!s){alert('Pick a start date');return;}var start=new Date(s+'T12:00:00'),d=new Date(start),c=0,tl=[];while(c<n){d.setDate(d.getDate()+1);var w=d.getDay(),hol=getHolidays(d.getFullYear())[dk(d)],biz=w!=0&&w!=6&&!hol;if(biz)c++;tl.push({t:hol?'holiday':w==0||w==6?'weekend':c==n?'target':'business',l:d.toLocaleDateString('en-US',{month:'short',day:'numeric'}),r:hol?'Bank holiday':w==0?'Sunday':w==6?'Saturday':c==n?'Target date':'Business day'});}var cal=Math.round((d-start)/864e5);document.getElementById('rd').textContent=d.toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});document.getElementById('rn').textContent=n+' business days from '+start.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});document.getElementById('mc').textContent=cal;document.getElementById('mw').textContent=tl.filter(function(x){return x.t=='weekend';}).length;document.getElementById('mh').textContent=tl.filter(function(x){return x.t=='holiday';}).length;var ic={business:'v',weekend:'.',holiday:'x',target:'*'};document.getElementById('tl').innerHTML=tl.map(function(x){return'<div class="day-row'+(x.t=='target'?' is-target':'')+'"><div class="day-icon '+x.t+'">'+(ic[x.t]||'v')+'</div><div class="day-date">'+x.l+'</div><div class="day-reason">'+x.r+'</div></div>';}).join('');if(tl.length<=30)document.getElementById('tl').classList.add('open');document.getElementById('rp').style.display='block';document.getElementById('rp').scrollIntoView({behavior:'smooth',block:'nearest'});bump(getKey());bar();if(left()<=0)setTimeout(showPaywall,600);}
 function tog(){document.getElementById('tl').classList.toggle('open');}
-
-// ── Paywall ───────────────────────────────────────────────────────────────
-function showPaywall(){
-  if(currentUser){
-    document.getElementById('pwTitle').textContent="You've used your 10 calculations this week";
-    document.getElementById('pwDesc').textContent='Upgrade to Pro for unlimited access.';
-    document.getElementById('pwSignin').style.display='none';
-    document.getElementById('pwPrice').textContent='$5';
-    document.getElementById('pwPriceSub').innerHTML='one-time &middot; <s style="color:var(--muted)">$14</s> signed-in discount';
-    document.getElementById('pwUpgrade').textContent='Get Early Access — $5 (your discount)';
-  }else{
-    document.getElementById('pwTitle').textContent="You've used your 5 free calculations this week";
-    document.getElementById('pwDesc').textContent='Sign in with Google to get 10/week, or upgrade to Pro.';
-    document.getElementById('pwSignin').style.display='block';
-    document.getElementById('pwPrice').textContent='$14';
-    document.getElementById('pwPriceSub').textContent='one-time · Pro for life';
-    document.getElementById('pwUpgrade').t
+function showPaywall(){if(currentUser){document.getElementById('pwTitle').textContent="You've used your 10 calculations this week";document.getElementById('pwDesc').textContent='Upgrade to Pro for unlimited access.';document.getElementById('pwSignin').style.display='none';document.getElementById('pwPrice').textContent='$5';document.getElementById('pwPriceSub').innerHTML='one-time &middot; <s style="color:var(--muted)">$14</s> signed-in discount';}else{document.getElementById('pwTitle').textContent="You've used your 5 free calculations this week";document.getElementById('pwDesc').textContent='Sign in with Google to get 10/week, or upgrade to Pro.';document.getElementById('pwSignin').style.display='block';document.getElementById('pwPrice').textContent='$14';document.getElementById('pwPriceSub').textContent='one-time · Pro for life';}document.getElementById('paywall').classList.add('active');}
+function handleAuth(){if(currentUser){currentUser=null;localStorage.removeItem('tdyz_user');document.getElementById('authUser').textContent='';document.getElementById('authBtn').textContent='Sign in with Google';document.getElementById('stripeBtn').textContent='Get Early Access - $14';bar();return;}var state=Math.random().toString(36).slice(2);localStorage.setItem('tdyz_state',state);window.location.href='https://accounts.google.com/o/oauth2/v2/auth?client_id='+encodeURIComponent(CLIENT_ID)+'&redirect_uri='+encodeURIComponent('https://trudayz.com')+'&response_type=token&scope='+encodeURIComponent('openid email profile')+'&state='+state;}
+function handleOAuthReturn(){var hash=window.location.hash;if(!hash||hash.indexOf('access_token')<0)return;var params={};hash.slice(1).split('&').forEach(function(p){var kv=p.split('=');params[kv[0]]=decodeURIComponent(kv[1]||'');});var token=params['access_token'];if(!token)return;history.replaceState(null,null,' ');fetch('https://www.googleapis.com/oauth2/v3/userinfo',{headers:{Authorization:'Bearer '+token}}).then(function(r){return r.json();}).then(function(u){currentUser={name:u.name,email:u.email};localStorage.setItem('tdyz_user',JSON.stringify(currentUser));document.getElementById('authUser').textContent=u.name||u.email;document.getElementById('authBtn').textContent='Sign out';document.getElementById('stripeBtn').textContent='Get Early Access — $5 (signed-in discount)';document.getElementById('paywall').classList.remove('active');bar();}).catch(function(){});}
+function sub(){var e=document.getElementById('ei').value.trim(),m=document.getElementById('cm');if(!e||e.indexOf('@')<0)return;fetch('https://formspree.io/f/xrevklyz',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:e})}).then(function(r){m.style.display='block';if(r.ok){m.className='ok';m.textContent='You are on the list.';}else{m.className='err';m.textContent='Something went wrong.';}}).catch(function(){m.style.display='block';m.className='err';m.textContent='Could not connect.';});}
+function updateHero(){var d=new Date(),first=new Date(d.getFullYear(),d.getMonth(),1),dd=new Date(first),cnt=0;while(cnt<14){dd.setDate(dd.getDate()+1);if(isBiz(dd))cnt++;}var days=Math.round((dd-first)/864e5),mn=first.toLocaleDateString('en-US',{month:'long'});document.getElementById('heroTitle').innerHTML='14 business days from '+mn+' 1st?<br><em>That\'s '+days+' TruDayz.</em>';}
+var d=new Date();
+document.getElementById('si').value=d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);
+try{var u=JSON.parse(localStorage.getItem('tdyz_user'));if(u&&u.email){currentUser=u;document.getElementById('authUser').textContent=u.name||u.email;document.getElementById('authBtn').textContent='Sign out';document.getElementById('stripeBtn').textContent='Get Early Access — $5 (signed-in discount)';}}catch(e){}
+bar();
+updateHero();
+handleOAuthReturn();
+</script>
+</body>
+</html>
