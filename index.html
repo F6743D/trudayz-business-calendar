@@ -163,7 +163,6 @@ function go(){
   var d=new Date(s+'T12:00:00'),count=0,we=0,he=0,tl=[];
   while(!isBiz(d))d.setDate(d.getDate()+1);
   var as=new Date(d);
-  d.setDate(d.getDate()-1);
   while(count<n){
     d.setDate(d.getDate()+1);
     var w=d.getDay(),ds=d.toISOString().split('T')[0],hs=hols(d.getFullYear());
