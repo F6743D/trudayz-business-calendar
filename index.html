@@ -85,6 +85,11 @@ footer{max-width:720px;margin:0 auto;padding-top:24px;border-top:1px solid var(-
 .pw-dismiss{background:none;border:none;color:var(--muted);font-family:'Inter',sans-serif;font-size:12px;cursor:pointer;padding:6px;}
 @media(max-width:560px){.input-row{grid-template-columns:1fr}.btn{width:100%}.metrics{grid-template-columns:1fr 1fr}.wl-row{grid-template-columns:1fr}.wl-row .btn{width:100%}}
 </style>
+<style media="print">
+  body { background: white !important; color: black !important; }
+  #saves-panel, .upgrade-section, #sign-in-btn { display: none !important; }
+  .result-card { border: 1px solid #ccc; }
+</style>
 </head>
 <body>
 <header>
@@ -101,6 +106,15 @@ footer{max-width:720px;margin:0 auto;padding-top:24px;border-top:1px solid var(-
 <div class="card-label">Calculate</div>
 <div class="input-row">
 <div class="field"><label for="di">Business days quoted</label><input type="number" id="di" placeholder="68" min="1" max="1000"></div>
+<div style="margin-bottom:1rem">
+  <label style="display:block;font-size:.75rem;letter-spacing:.1em;color:#888;margin-bottom:.4rem">COUNTRY / HOLIDAYS</label>
+  <select id="country-select" style="width:100%;padding:.75rem 1rem;background:#0d0d1a;color:#fff;border:1px solid #2d2d4e;border-radius:8px;font-size:.95rem;appearance:none;-webkit-appearance:none;">
+    <option value="us">&#127482;&#127480; United States</option>
+    <option value="uk">&#127468;&#127463; United Kingdom</option>
+    <option value="ca">&#127464;&#127462; Canada</option>
+    <option value="au">&#127462;&#127482; Australia</option>
+  </select>
+</div>
 <div class="field"><label for="si">Start date</label><input type="date" id="si"></div>
 <button class="btn" onclick="go()">Calculate</button>
 </div>
@@ -131,6 +145,12 @@ footer{max-width:720px;margin:0 auto;padding-top:24px;border-top:1px solid var(-
 <div class="wl-row"><input type="email" id="ei" placeholder="your@email.com"><button class="btn" onclick="sub()">Join waitlist</button></div>
 <a href="https://buy.stripe.com/8x2eV716cg0I9ef7Mh67S00" class="stripe-btn" id="stripeBtn">Get Early Access - $14</a>
 <div id="cm"></div>
+</div>
+
+<div id="saves-panel" style="margin-top:1.5rem;padding:1rem;background:#111827;border-radius:10px;border:1px solid #2d1f4e;">
+  <h3 style="color:#a78bfa;font-size:.75rem;letter-spacing:.1em;margin:0 0 .75rem;text-transform:uppercase;">&#128337; Recent Calculations</h3>
+  <div id="saves-list" style="font-size:.875rem;color:#d1d5db;"></div>
+  <button onclick="localStorage.removeItem('trudayz_saves');renderSaves();" style="margin-top:.75rem;font-size:.7rem;color:#6b7280;background:none;border:none;cursor:pointer;padding:0;">Clear history</button>
 </div>
 </main>
 <footer><div class="footer-brand">TruDayz - F6743D</div></footer>
@@ -174,6 +194,35 @@ try{var u=JSON.parse(localStorage.getItem('tdyz_user'));if(u&&u.email){currentUs
 bar();
 updateHero();
 handleOAuthReturn();
+</script>
+<script>
+(function(){
+  var d = new Date(); var count = 0; var cur = new Date(d);
+  while(count < 14){ cur.setDate(cur.getDate()+1); if(cur.getDay()!==0<script>
+function saveCalc(days, start, result) {
+  var saves = JSON.parse(localStorage.getItem("trudayz_saves") || "[]");
+  saves.unshift({ days: days, start: start, result: result, ts: Date.now() });
+  if (saves.length > 20) saves = saves.slice(0, 20);
+  localStorage.setItem("trudayz_saves", JSON.stringify(saves));
+  renderSaves();
+}
+function renderSaves() {
+  var saves = JSON.parse(localStorage.getItem("trudayz_saves") || "[]");
+  var el = document.getElementById("saves-list");
+  if (!el) return;
+  el.innerHTML = saves.map(function(s) {
+    return '<div class="save-item" style="padding:.4rem 0;border-bottom:1px solid #222;">' + s.days + ' days from ' + s.start + ' = <b style="color:#a78bfa">' + s.result + '</b></div>';
+  }).join("");
+}
+document.addEventListener("DOMContentLoaded", renderSaves);
+</script>
+</body></body>cur.getDay()!==6) count++; }
+  var opts = {month:"long",day:"numeric"};
+  var q = document.getElementById("hero-question");
+  var r = document.getElementById("hero-result");
+  if(q) q.textContent = "14 business days from " + d.toLocaleDateString("en-US",opts) + "?";
+  if(r) r.textContent = "That's " + cur.toLocaleDateString("en-US",opts) + ".";
+})();
 </script>
 </body>
 </html>
