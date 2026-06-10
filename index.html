@@ -200,24 +200,31 @@ handleOAuthReturn();
 (function(){
   var d = new Date(); var count = 0; var cur = new Date(d);
   while(count < 14){ cur.setDate(cur.getDate()+1); if(cur.getDay()!==0<script>
+
+</script>
+
+<script>
 function saveCalc(days, start, result) {
-  document.getElementById("saves-debug") && (document.getElementById("saves-debug").textContent = "saveCalc called: " + days + " / " + start + " / " + result);
-  console.log('saveCalc fired:', days, start, result);
-  var saves = JSON.parse(localStorage.getItem("trudayz_saves") || "[]");
-  saves.unshift({ days: days, start: start, result: result, ts: Date.now() });
-  if (saves.length > 20) saves = saves.slice(0, 20);
-  localStorage.setItem("trudayz_saves", JSON.stringify(saves));
+  try {
+    var saves = JSON.parse(localStorage.getItem('tz_saves') || '[]');
+    saves.unshift({d: days, s: start, r: result});
+    if (saves.length > 10) saves.length = 10;
+    localStorage.setItem('tz_saves', JSON.stringify(saves));
+  } catch(e) {}
   renderSaves();
 }
 function renderSaves() {
-  var saves = JSON.parse(localStorage.getItem("trudayz_saves") || "[]");
-  var el = document.getElementById("saves-list");
+  var el = document.getElementById('saves-list');
   if (!el) return;
-  el.innerHTML = saves.map(function(s) {
-    return '<div class="save-item" style="padding:.4rem 0;border-bottom:1px solid #222;">' + s.days + ' days from ' + s.start + ' = <b style="color:#a78bfa">' + s.result + '</b></div>';
-  }).join("");
+  try {
+    var saves = JSON.parse(localStorage.getItem('tz_saves') || '[]');
+    if (!saves.length) { el.innerHTML = '<div style="color:#666;font-size:.8rem">No calculations yet</div>'; return; }
+    el.innerHTML = saves.map(function(s) {
+      return '<div style="padding:.4rem 0;border-bottom:1px solid #1f2937;font-size:.875rem"><span style="color:#a78bfa">' + s.d + ' days</span> from ' + s.s + ' &rarr; <b style="color:#fff">' + s.r + '</b></div>';
+    }).join('');
+  } catch(e) { el.innerHTML = '<div style="color:#f87171">Error loading</div>'; }
 }
-document.addEventListener("DOMContentLoaded", renderSaves);
+document.addEventListener('DOMContentLoaded', renderSaves);
 </script>
 </body>
 </html>
