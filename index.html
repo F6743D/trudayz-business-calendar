@@ -201,6 +201,7 @@ handleOAuthReturn();
   var d = new Date(); var count = 0; var cur = new Date(d);
   while(count < 14){ cur.setDate(cur.getDate()+1); if(cur.getDay()!==0<script>
 function saveCalc(days, start, result) {
+  document.getElementById("saves-debug") && (document.getElementById("saves-debug").textContent = "saveCalc called: " + days + " / " + start + " / " + result);
   console.log('saveCalc fired:', days, start, result);
   var saves = JSON.parse(localStorage.getItem("trudayz_saves") || "[]");
   saves.unshift({ days: days, start: start, result: result, ts: Date.now() });
