@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TruDayz — Dashboard</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0a0a0f;color:#e2e8f0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh}
+nav{display:flex;align-items:center;justify-content:space-between;padding:.875rem 1.25rem;border-bottom:1px solid #1a1a2e}
+.nav-logo{display:flex;align-items:center;gap:.5rem;font-size:.75rem;font-weight:700;letter-spacing:.15em;color:#a78bfa;text-decoration:none}
+.nav-logo span{color:#e2e8f0}
+.badge-pro{font-size:.65rem;font-weight:700;letter-spacing:.1em;background:linear-gradient(135deg,#7c3aed,#4f46e5);color:#fff;padding:.2rem .5rem;border-radius:4px}
+.btn-so{font-size:.75rem;color:#6b7280;background:none;border:1px solid #1f2937;border-radius:6px;padding:.35rem .75rem;cursor:pointer}
+main{max-width:640px;margin:0 auto;padding:1.5rem 1.25rem 4rem}
+.greeting{margin-bottom:1.75rem}
+.greeting h1{font-size:1.4rem;font-weight:700;margin-bottom:.25rem}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:1.75rem}
+.stat-card{background:#111827;border:1px solid #1f2937;border-radius:10px;padding:.875rem}
+.stat-label{font-size:.65rem;letter-spacing:.1em;color:#6b7280;text-transform:uppercase;margin-bottom:.35rem}
+.stat-value{font-size:1.5rem;font-weight:700;color:#a78bfa}
+.stat-sub{font-size:.7rem;color:#4b5563;margin-top:.15rem}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.875rem}
+.section-title{font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6b7280}
+.btn-clear{font-size:.7rem;color:#4b5563;background:none;border:none;cursor:pointer}
+.settings-card{background:#111827;border:1px solid #1f2937;border-radius:10px;padding:1rem;margin-bottom:1.75rem}
+.settings-row{display:flex;align-items:center;justify-content:space-between;padding:.625rem 0;border-bottom:1px solid #1f2937}
+.settings-row:last-child{border-bottom:none}
+.settings-label{font-size:.875rem;color:#d1d5db}
+.settings-label small{display:block;font-size:.7rem;color:#4b5563;margin-top:.1rem}
+select.settings-select{background:#0d0d1a;color:#e2e8f0;border:1px solid #2d2d4e;border-radius:6px;padding:.4rem .75rem;font-size:.8rem;cursor:pointer}
+.calc-list{display:flex;flex-direction:column;gap:.625rem}
+.calc-card{background:#111827;border:1px solid #1f2937;border-radius:10px;padding:.875rem 1rem;display:flex;align-items:center;justify-content:space-between;gap:.75rem}
+.calc-info{flex:1;min-width:0}
+.calc-main{font-size:.875rem;font-weight:600;color:#e2e8f0}
+.calc-main span{color:#a78bfa}
+.calc-meta{font-size:.7rem;color:#4b5563;margin-top:.2rem}
+.btn-pdf{flex-shrink:0;background:#1f2937;border:1px solid #374151;color:#9ca3af;border-radius:6px;padding:.35rem .65rem;font-size:.7rem;cursor:pointer}
+.empty{background:#111827;border:1px dashed #1f2937;border-radius:10px;padding:2.5rem 1rem;text-align:center}
+.empty p{font-size:.875rem;color:#4b5563;margin-bottom:.5rem}
+.empty a{font-size:.8rem;color:#a78bfa;text-decoration:none}
+#paywall{display:none;text-align:center;padding:3rem 1.5rem}
+#paywall h2{font-size:1.25rem;margin-bottom:.5rem}
+#paywall p{color:#6b7280;font-size:.875rem;margin-bottom:1.5rem}
+.btn-upgrade{display:inline-block;background:linear-gradient(135deg,#7c3aed,#4f46e5);color:#fff;font-weight:700;font-size:.875rem;padding:.75rem 1.75rem;border-radius:8px;text-decoration:none}
+#dashboard{display:none}
+</style>
+</head>
+<body>
+<nav>
+  <a href="/" class="nav-logo">● <span>TRUDAYZ</span></a>
+  <div style="display:flex;align-items:center;gap:.75rem">
+    <span class="badge-pro" id="proBadge" style="display:none">PRO</span>
+    <button class="btn-so" onclick="signOut()">Sign out</button>
+  </div>
+</nav>
+<main>
+  <div id="paywall">
+    <h2>TruDayz Pro required</h2>
+    <p>Save calculations, export PDFs, and set your country holidays.</p>
+    <a href="/" class="btn-upgrade">Upgrade — $14</a>
+  </div>
+  <div id="dashboard">
+    <div class="greeting">
+      <h1>Hey, <span id="userName">there</span> 👋</h1>
+      <p id="userEmail" style="color:#6b7280;font-size:.8rem;margin-top:.2rem"></p>
+    </div>
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-label">Saved</div>
+        <div class="stat-value" id="statSaved">0</div>
+        <div class="stat-sub">calculations</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">This week</div>
+        <div class="stat-value">∞</div>
+        <div class="stat-sub">unlimited</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Country</div>
+        <div class="stat-value" id="statFlag">🇺🇸</div>
+        <div class="stat-sub" id="statCountryName">United States</div>
+      </div>
+    </div>
+    <div class="section-header"><div class="section-title">Settings</div></div>
+    <div class="settings-card">
+      <div class="settings-row">
+        <div class="settings-label">Country / Holidays<small>Used for all calculations</small></div>
+        <select class="settings-select" id="countrySelect" onchange="saveCountry()">
+          <option value="us">🇺🇸 United States</option>
+          <option value="uk">🇬🇧 United Kingdom</option>
+          <option value="ca">🇨🇦 Canada</option>
+          <option value="au">🇦🇺 Australia</option>
+        </select>
+      </div>
+    </div>
+    <div class="section-header">
+      <div class="section-title">Saved Calculations</div>
+      <button class="btn-clear" onclick="clearAll()">Clear all</button>
+    </div>
+    <div id="calcList" class="calc-list"></div>
+  </div>
+</main>
+<script>
+var user=null,isPro=false;
+try{user=JSON.parse(localStorage.getItem('tdyz_user')||localStorage.getItem('currentUser')||'null');isPro=localStorage.getItem('tdyz_pro')==='true'||(user&&user.pro);}catch(e){}
+if(!user){window.location.href='/';}
+else if(!isPro){document.getElementById('paywall').style.display='block';}
+else{showDash();}
+function showDash(){
+  document.getElementById('dashboard').style.display='block';
+  document.getElementById('proBadge').style.display='inline';
+  var name=(user.name||user.email||'there').split(' ')[0];
+  document.getElementById('userName').textContent=name;
+  document.getElementById('userEmail').textContent=user.email||'';
+  var c=localStorage.getItem('tdyz_country')||'us';
+  document.getElementById('countrySelect').value=c;
+  updateFlag(c);
+  renderCalcs();
+}
+function saveCountry(){var v=document.getElementById('countrySelect').value;localStorage.setItem('tdyz_country',v);updateFlag(v);}
+function updateFlag(c){var f={us:'🇺🇸',uk:'🇬🇧',ca:'🇨🇦',au:'🇦🇺'},n={us:'United States',uk:'United Kingdom',ca:'Canada',au:'Australia'};document.getElementById('statFlag').textContent=f[c]||'🇺🇸';document.getElementById('statCountryName').textContent=n[c]||'United States';}
+function renderCalcs(){
+  var saves=[];try{saves=JSON.parse(localStorage.getItem('tz_saves')||'[]');}catch(e){}
+  document.getElementById('statSaved').textContent=saves.length;
+  var list=document.getElementById('calcList');
+  if(!saves.length){list.innerHTML='<div class="empty"><p>No calculations saved yet.</p><a href="/">Run your first calculation →</a></div>';return;}
+  list.innerHTML=saves.map(function(s,i){
+    var dt=s.ts?new Date(s.ts).toLocaleDateString('en-US',{month:'short',day:'numeric'}):'';
+    return '<div class="calc-card"><div class="calc-info"><div class="calc-main"><span>'+s.d+' days</span> from '+s.s+' → '+s.r+'</div><div class="calc-meta">'+(dt?'Saved '+dt:'')+'</div></div><button class="btn-pdf" onclick="exportPDF('+i+')">⬇ PDF</button></div>';
+  }).join('');
+}
+function exportPDF(i){
+  var saves=[];try{saves=JSON.parse(localStorage.getItem('tz_saves')||'[]');}catch(e){}
+  var s=saves[i];if(!s)return;
+  var w=window.open('','_blank');
+  w.document.write('<html><head><title>TruDayz Export</title><style>body{font-family:sans-serif;padding:2rem;color:#111}.label{font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:#999}.result{font-size:2rem;font-weight:700;color:#7c3aed;margin:.5rem 0}.meta{color:#666;font-size:.875rem}</style></head><body><div class="label">TRUDAYZ · BUSINESS DAY CALCULATION</div><h1 style="margin:.5rem 0">'+s.d+' business days from '+s.s+'</h1><div class="result">'+s.r+'</div><div class="meta">Exported '+new Date().toLocaleDateString('en-US',{weekday:"long",year:"numeric",month:"long",day:"numeric"})+'</div><hr style="margin:1.5rem 0;border:none;border-top:1px solid #eee"><div style="font-size:.75rem;color:#999">trudayz.com · Pro export</div></body></html>');
+  w.document.close();setTimeout(function(){w.print();},400);
+}
+function clearAll(){if(!confirm('Clear all saved calculations?'))return;localStorage.removeItem('tz_saves');renderCalcs();}
+function signOut(){localStorage.removeItem('tdyz_user');localStorage.removeItem('currentUser');window.location.href='/';}
+</script>
+</body>
+</html>
