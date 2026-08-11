@@ -103,19 +103,18 @@ def auth_callback():
         {"web": {"client_id": GOOGLE_CLIENT_ID, "client_secret": GOOGLE_CLIENT_SECRET,
          "auth_uri": "https://accounts.google.com/o/oauth2/auth",
          "token_uri": "https://oauth2.googleapis.com/token"}},
-        scopes=["openid", "email", "profile"],
-        redirect_uri=GOOGLE_REDIRECT_URI
-    )
-    flow.fetch_token(authorization_response=request.url)
-    credentials = flow.credentials
-GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
+scopes=["openid", "email", "profile"],
+redirect_uri=GOOGLE_REDIRECT_URI
+)
+flow.fetch_token(authorization_response=request.url)
+credentials = flow.credentials
+    GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
     user = {"email": idinfo["email"], "name": idinfo.get("name", ""), "pro": False}
     resp = redirect("/?auth=" + json.dumps(user))
     return resp
-
-@app.route("/",methods=["GET"])
+        @app.route("/",methods=["GET"])
 def index():
-    return send_from_directory(STATIC_DIR,"index.html")
+return send_from_directory(STATIC_DIR,"index.html")
 @app.route("/api/calculate",methods=["POST"])
 def api_calculate():
     try:
