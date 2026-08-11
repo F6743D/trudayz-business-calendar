@@ -170,3 +170,7 @@ if __name__=="__main__":
     port=int(os.environ.get("PORT",8080))
     print(f"TruDayz live at http://localhost:{port}")
     app.run(host="0.0.0.0",port=port,debug=True)
+
+
+# Vercel entrypoint binding
+app = app if "app" in globals() else None
